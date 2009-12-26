@@ -2,7 +2,6 @@
 using NUnit.Framework;
 using StackUnderflow.Persistence.Entities;
 using StackUnderflow.Persistence.Repositories;
-using Tests;
 
 namespace StackUnderflow.Tests.Persistence
 {
@@ -34,6 +33,14 @@ namespace StackUnderflow.Tests.Persistence
             
             Assert.AreEqual("Ron", savedUser.Name);
             Assert.AreEqual("http://foo.com/", savedUser.WebsiteUrl.AbsoluteUri);
+        }
+
+        [Test]
+        public void SaveUserWithoutWebsite()
+        {
+            var user = new User { Name = "Ron" };
+            _userRepository.Save(user);
+            _userRepository.GetById(user.Id);
         }
     }
 }

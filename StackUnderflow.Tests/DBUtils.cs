@@ -9,6 +9,7 @@ namespace Tests
             using (var session = sessionFactory.OpenSession())
             using (var tx = session.BeginTransaction())
             {
+                session.CreateSQLQuery("truncate table Questions").ExecuteUpdate();
                 session.CreateSQLQuery("truncate table Users").ExecuteUpdate();
                 tx.Commit();
             }

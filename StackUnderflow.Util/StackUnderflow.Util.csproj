@@ -86,6 +86,10 @@
       <Project>{E641E041-6859-4201-9CB0-4439B96A0568}</Project>
       <Name>StackUnderflow.Model</Name>
     </ProjectReference>
+    <ProjectReference Include="..\StackUnderflow.Persistence\StackUnderflow.Persistence.csproj">
+      <Project>{EA33877C-882C-4617-B452-752BF9789B3D}</Project>
+      <Name>StackUnderflow.Persistence</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

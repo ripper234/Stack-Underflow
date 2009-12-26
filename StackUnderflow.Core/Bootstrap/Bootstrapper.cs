@@ -1,10 +1,7 @@
-﻿using Castle.ActiveRecord;
-using Castle.Core.Resource;
-using Castle.MicroKernel;
+﻿using Castle.Core.Resource;
 using Castle.Windsor;
 using Castle.Windsor.Configuration.Interpreters;
 using StackUnderflow.IoC;
-using StackUnderflow.Persistence.Entities;
 using StackUnderflow.Persistence.Repositories;
 
 namespace StackUnderflow.Bootstrap

@@ -41,21 +41,19 @@
     <Compile Include="IoC\ImplementedByAttribute.cs" />
     <Compile Include="Bootstrap\NHibernateConfig.cs" />
     <Compile Include="Bootstrap\NHibernateConfigurator.cs" />
-    <Compile Include="Persistence\Mapping\UserMapping.cs" />
-    <Compile Include="Persistence\Repositories\IRepository.cs" />
-    <Compile Include="Persistence\Repositories\RepositoryBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Persistence\Repositories\IUserRepository.cs" />
-    <Compile Include="Persistence\Repositories\UserRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\StackUnderflow.Model\StackUnderflow.Model.csproj">
       <Project>{E641E041-6859-4201-9CB0-4439B96A0568}</Project>
       <Name>StackUnderflow.Model</Name>
     </ProjectReference>
+    <ProjectReference Include="..\StackUnderflow.Persistence\StackUnderflow.Persistence.csproj">
+      <Project>{EA33877C-882C-4617-B452-752BF9789B3D}</Project>
+      <Name>StackUnderflow.Persistence</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="Castle.ActiveRecord, Version=2.0.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL" />
     <Reference Include="Castle.Core, Version=1.1.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\lib\Castle\Castle.Core.dll</HintPath>

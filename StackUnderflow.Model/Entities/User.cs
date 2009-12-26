@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Castle.ActiveRecord;
+using StackUnderflow.Model.Entities;
 
 namespace StackUnderflow.Persistence.Entities
 {
@@ -13,7 +14,7 @@ namespace StackUnderflow.Persistence.Entities
         [Property]
         public virtual string Name { get; set; }
 
-        //[Property]
+        [HasMany]
         public virtual IList<Question> Questions { get; set; }
 
         public virtual Uri WebsiteUrl { get; set; }
@@ -24,14 +25,18 @@ namespace StackUnderflow.Persistence.Entities
         {
             get
             {
-                Console.WriteLine("Get called");
                 return WebsiteUrl == null ? 
                     null :
                     WebsiteUrl.AbsoluteUri;
             }
             set
             {
-                Console.WriteLine("Set called with " + value);
+                if (value == null)
+                {
+                    WebsiteUrl = null;
+                    return;
+                }
+
                 WebsiteUrl = new Uri(value);
             }
         }

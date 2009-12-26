@@ -1,10 +1,21 @@
-﻿namespace StackUnderflow.Persistence.Entities
+﻿using Castle.ActiveRecord;
+using StackUnderflow.Persistence.Entities;
+
+namespace StackUnderflow.Model.Entities
 {
-    public class Question
+    [ActiveRecord("Questions")]
+    public class Question : ActiveRecordBase<Question>
     {
-        public int Id { get; private set; }
+        [PrimaryKey]
+        public int Id { get; set; }
+
+        [Property]
         public string Title { get; set; }
+        
+        [Property]
         public string Text { get; set; }
+
+        [BelongsTo]
         public User Author { get; set; }
     }
 }

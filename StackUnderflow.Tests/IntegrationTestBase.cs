@@ -2,8 +2,9 @@
 using NHibernate;
 using NUnit.Framework;
 using StackUnderflow.Bootstrap;
+using Tests;
 
-namespace Tests
+namespace StackUnderflow.Tests
 {
     public abstract class IntegrationTestBase
     {
@@ -19,7 +20,7 @@ namespace Tests
         [SetUp]
         public virtual void Setup()
         {
-            //DBUtils.ClearDatabase(Container.Resolve<ISessionFactory>());
+            DBUtils.ClearDatabase(Container.Resolve<ISessionFactory>());
             SetupCore();
         }
 
@@ -29,6 +30,11 @@ namespace Tests
 
         public virtual void SetupCore()
         {
+        }
+
+        protected T Resolve<T>()
+        {
+            return Container.Resolve<T>();
         }
     }
 }
