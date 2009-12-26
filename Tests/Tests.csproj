@@ -34,6 +34,9 @@
     <Reference Include="Antlr3.Runtime">
       <HintPath>..\lib\Fluent\Antlr3.Runtime.dll</HintPath>
     </Reference>
+    <Reference Include="Castle.ActiveRecord">
+      <HintPath>..\lib\Castle\Castle.ActiveRecord.dll</HintPath>
+    </Reference>
     <Reference Include="Castle.Core">
       <HintPath>..\lib\Castle\Castle.Core.dll</HintPath>
     </Reference>

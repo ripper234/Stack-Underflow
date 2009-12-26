@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System;
+using NUnit.Framework;
 using StackUnderflow.Persistence.Entities;
 using StackUnderflow.Persistence.Repositories;
 
@@ -21,6 +22,17 @@ namespace Tests.Persistence
             Assert.AreEqual(0, user.Id);
             _userRepository.Save(user);
             Assert.AreNotEqual(0, user.Id);
+        }
+
+        [Test]
+        public void SavedUsersDetails_AreRetrieved()
+        {
+            var user = new User { Name = "Ron" , WebsiteUrl = new Uri("http://foo.com")};
+            _userRepository.Save(user);
+            var savedUser = _userRepository.GetById(user.Id);
+            
+            Assert.AreEqual("Ron", savedUser.Name);
+            Assert.AreEqual("http://foo.com", savedUser.WebsiteUrl.AbsolutePath);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using FluentNHibernate.Mapping;
+﻿using FluentNHibernate;
+using FluentNHibernate.Mapping;
 using StackUnderflow.Persistence.Entities;
 
 namespace StackUnderflow.Persistence.Mapping
@@ -11,7 +12,7 @@ namespace StackUnderflow.Persistence.Mapping
             Table("Users");
             Id(x => x.Id);
             Map(x => x.Name);
-            Map(x => x.Website);
+            Map(Reveal.Property<User>("WebsiteUrlString"), "Website");
             // References
         }
     }

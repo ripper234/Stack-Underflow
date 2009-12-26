@@ -12,7 +12,7 @@ namespace Tests
         [TestFixtureSetUp]
         public virtual void FixtureSetup()
         {
-            Container = Bootstrapper.Instance.CreateContainer();
+            Container = Bootstrapper.Instance.GetContainer();
             FixtureSetupCore();
         }
 

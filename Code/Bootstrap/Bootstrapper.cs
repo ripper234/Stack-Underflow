@@ -1,4 +1,8 @@
-﻿using Castle.MicroKernel.Registration;
+﻿using System;
+using Castle.ActiveRecord;
+using Castle.ActiveRecord.Framework;
+using Castle.ActiveRecord.Framework.Config;
+using Castle.MicroKernel.Registration;
 using Castle.Windsor;
 using FluentNHibernate.Cfg.Db;
 using NHibernate;
@@ -20,7 +24,19 @@ namespace StackUnderflow.Bootstrap
         {
         }
 
-        public WindsorContainer CreateContainer()
+        public WindsorContainer GetContainer()
+        {
+            var container = CreateContainer();
+            InitializeActiveRecord();
+            return container;
+        }
+
+        private static void InitializeActiveRecord()
+        {
+            ActiveRecordStarter.Initialize(new ActiveRecordSectionHandler());
+        }
+
+        private WindsorContainer CreateContainer()
         {
             var container = new WindsorContainer();
             container.AutoWireServicesIn(typeof (User).Assembly);
