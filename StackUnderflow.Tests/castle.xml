@@ -5,7 +5,8 @@
         id="ActiveRecordFacility"
         type="Castle.Facilities.ActiveRecordIntegration.ActiveRecordFacility, Castle.Facilities.ActiveRecordIntegration"
         isDebug="true"
-        isWeb="false">
+        isWeb="false"
+        pluralizeTableNames="true">
 
       <!-- Configure the namespaces for the models using Active Record Intergration -->
       <assemblies>

@@ -5,7 +5,7 @@ using StackUnderflow.Model.Entities;
 
 namespace StackUnderflow.Persistence.Entities
 {
-    [ActiveRecord("Users")]
+    [ActiveRecord]
     public class User : ActiveRecordBase<User>
     {
         [PrimaryKey]

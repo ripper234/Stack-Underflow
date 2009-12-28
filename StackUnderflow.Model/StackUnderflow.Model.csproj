@@ -55,6 +55,7 @@
   <ItemGroup>
     <Compile Include="Entities\Question.cs" />
     <Compile Include="Entities\User.cs" />
+    <Compile Include="Entities\VoteKey.cs" />
     <Compile Include="Entities\VoteOnQuestion.cs" />
     <Compile Include="Entities\VoteType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

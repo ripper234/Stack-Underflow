@@ -7,5 +7,6 @@ namespace StackUnderflow.Persistence.Repositories
     {
         void AddVote(User user, Question question, VoteType voteType);
         VoteCount GetVoteCount(int questionId);
+        VoteOnQuestion GetVote(User user, Question question);
     }
 }

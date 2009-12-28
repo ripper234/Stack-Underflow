@@ -3,7 +3,7 @@ using StackUnderflow.Persistence.Entities;
 
 namespace StackUnderflow.Model.Entities
 {
-    [ActiveRecord("Questions")]
+    [ActiveRecord]
     public class Question : ActiveRecordBase<Question>
     {
         [PrimaryKey]
