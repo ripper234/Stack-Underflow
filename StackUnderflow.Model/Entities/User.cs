@@ -1,7 +1,11 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Collections.Generic;
 using Castle.ActiveRecord;
 using StackUnderflow.Model.Entities;
+
+#endregion
 
 namespace StackUnderflow.Persistence.Entities
 {
@@ -25,9 +29,11 @@ namespace StackUnderflow.Persistence.Entities
         {
             get
             {
-                return WebsiteUrl == null ? 
-                    null :
-                    WebsiteUrl.AbsoluteUri;
+                return WebsiteUrl == null
+                           ?
+                               null
+                           :
+                               WebsiteUrl.AbsoluteUri;
             }
             set
             {
@@ -40,6 +46,7 @@ namespace StackUnderflow.Persistence.Entities
                 WebsiteUrl = new Uri(value);
             }
         }
+
 // ReSharper restore UnusedMember.Local
     }
 }

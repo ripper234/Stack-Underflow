@@ -1,17 +1,21 @@
-﻿using System;
-using NHibernate;
+﻿#region
+
+using System;
+using StackUnderflow.Bootstrap;
 using StackUnderflow.Persistence.Entities;
 using StackUnderflow.Persistence.Repositories;
 
+#endregion
+
 namespace StackUnderflow.Util
 {
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             try
             {
-                var container = Bootstrap.Bootstrapper.Instance.GetContainer();
+                var container = Bootstrapper.Instance.GetContainer();
                 var userRepository = container.Resolve<IUserRepository>();
                 var user = new User {Name = "Ron"};
                 userRepository.Save(user);

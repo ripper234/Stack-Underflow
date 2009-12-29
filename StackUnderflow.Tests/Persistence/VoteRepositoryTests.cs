@@ -1,5 +1,9 @@
-﻿using NUnit.Framework;
+﻿#region
+
+using NUnit.Framework;
 using StackUnderflow.Model.Entities;
+
+#endregion
 
 namespace StackUnderflow.Tests.Persistence
 {
@@ -19,12 +23,37 @@ namespace StackUnderflow.Tests.Persistence
         }
 
         [Test]
+        public void TwoThumbUpsAndOneThumbDown_CountVotesIsCorrect()
+        {
+            // prepare users
+            var askingUser = SaveUser();
+            var thumbUpper1 = SaveUser();
+            var thumbUpper2 = SaveUser();
+            var thumbDowner = SaveUser();
+
+            // and question
+            var question = SaveQuestion(askingUser);
+
+            // vote
+            VoteRepository.AddVote(thumbUpper1, question, VoteType.ThumbUp);
+            VoteRepository.AddVote(thumbUpper2, question, VoteType.ThumbUp);
+            VoteRepository.AddVote(thumbDowner, question, VoteType.ThumbDown);
+
+            // count votes
+            var voteCount = VoteRepository.GetVoteCount(question.Id);
+            Assert.AreEqual(2, voteCount.ThumbUps);
+            Assert.AreEqual(1, voteCount.ThumbDowns);
+        }
+
+        [Test]
         public void UnvotedQuestion_CountVotesIsZero()
         {
             var user = SaveUser();
             var question = SaveQuestion(user);
 
-            Assert.Equals(0, VoteRepository.GetVoteCount(question.Id));
+            var voteCount = VoteRepository.GetVoteCount(question.Id);
+            Assert.AreEqual(0, voteCount.ThumbUps);
+            Assert.AreEqual(0, voteCount.ThumbDowns);
         }
     }
 }

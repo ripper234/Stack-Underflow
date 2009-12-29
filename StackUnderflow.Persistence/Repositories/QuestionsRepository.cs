@@ -1,4 +1,8 @@
-﻿using StackUnderflow.Model.Entities;
+﻿#region
+
+using StackUnderflow.Model.Entities;
+
+#endregion
 
 namespace StackUnderflow.Persistence.Repositories
 {

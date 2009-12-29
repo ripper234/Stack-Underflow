@@ -1,5 +1,9 @@
-﻿using Castle.ActiveRecord;
+﻿#region
+
+using Castle.ActiveRecord;
 using StackUnderflow.Persistence.Entities;
+
+#endregion
 
 namespace StackUnderflow.Model.Entities
 {
@@ -11,7 +15,7 @@ namespace StackUnderflow.Model.Entities
 
         [Property]
         public string Title { get; set; }
-        
+
         [Property]
         public string Text { get; set; }
 

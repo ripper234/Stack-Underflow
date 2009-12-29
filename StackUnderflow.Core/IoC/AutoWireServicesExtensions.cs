@@ -1,4 +1,6 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -7,31 +9,45 @@ using Castle.MicroKernel.Registration;
 using Castle.Windsor;
 using StackUnderflow.IoC.Delver.Framework.IoC;
 
+#endregion
+
 namespace StackUnderflow.IoC
 {
     /// <summary>
-    /// Allow auto wiring of services to the container using conventions
+    ///   Allow auto wiring of services to the container using conventions
     /// </summary>
     public static class AutoWireServicesExtensions
     {
         /// <summary>
-        /// Allow auto wiring of services to the container using conventions
+        ///   Allow auto wiring of services to the container using conventions
         /// </summary>
-        /// <param name="container">The container to register into</param>
-        /// <param name="assembly">The assembly in which implementations reside</param>
-        /// <returns>The container, with registered services</returns>
+        /// <param name="container">
+        ///   The container to register into
+        /// </param>
+        /// <param name="assembly">
+        ///   The assembly in which implementations reside
+        /// </param>
+        /// <returns>
+        ///   The container, with registered services
+        /// </returns>
         public static IWindsorContainer AutoWireServicesIn(this IWindsorContainer container, Assembly assembly)
         {
             return AutoWireServicesIn(container, assembly, new Type[0]);
         }
 
         /// <summary>
-        /// Allow auto wiring of services to the container using conventions
+        ///   Allow auto wiring of services to the container using conventions
         /// </summary>
-        /// <param name="container">The container to register into</param>
-        /// <param name="assembly">The assembly in which implementations reside</param>
+        /// <param name="container">
+        ///   The container to register into
+        /// </param>
+        /// <param name="assembly">
+        ///   The assembly in which implementations reside
+        /// </param>
         /// <param name="implementationsToSkip"></param>
-        /// <returns>The container, with registered services</returns>
+        /// <returns>
+        ///   The container, with registered services
+        /// </returns>
         public static IWindsorContainer AutoWireServicesIn(this IWindsorContainer container, Assembly assembly,
                                                            ICollection<Type> implementationsToSkip)
         {
@@ -39,17 +55,17 @@ namespace StackUnderflow.IoC
                 throw new ArgumentNullException("container");
 
             var types = from type in assembly.GetExportedTypes()
-                                      where type.IsAbstract == false
-                                            && type.IsInterface == false
-                                            && implementationsToSkip.Contains(type) == false
-                                      select type;
+                        where type.IsAbstract == false
+                              && type.IsInterface == false
+                              && implementationsToSkip.Contains(type) == false
+                        select type;
 
-            foreach (Type type in types)
+            foreach (var type in types)
             {
-                string serviceName = "I" + type.Name;
+                var serviceName = "I" + type.Name;
                 LifestyleType lifestyle;
 
-                Type interfaceType =
+                var interfaceType =
                     type.GetInterfaces().
                         Where(i => i.GetAttribute<ImplementedByAttribute>() != null).
                         SingleOrDefault();
@@ -70,7 +86,7 @@ namespace StackUnderflow.IoC
                         continue;
                 }
 
-                ComponentRegistration<object> registration = Component
+                var registration = Component
                     .For(interfaceType)
                     .ImplementedBy(type)
                     .LifeStyle.Is(lifestyle);

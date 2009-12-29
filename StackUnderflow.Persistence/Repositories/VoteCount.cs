@@ -2,13 +2,16 @@
 {
     public class VoteCount
     {
-        public VoteCount(int thumbUps, int thumbDowns)
+        public VoteCount(long thumbUps, long thumbDowns)
         {
-            ThumbUps = thumbUps;
-            ThumbDowns = thumbDowns;
+            checked
+            {
+                ThumbUps = (int) thumbUps;
+                ThumbDowns = (int) thumbDowns;
+            }
         }
 
-        public int ThumbUps { get; set;}
-        public int ThumbDowns { get; set;}
+        public int ThumbUps { get; set; }
+        public int ThumbDowns { get; set; }
     }
 }

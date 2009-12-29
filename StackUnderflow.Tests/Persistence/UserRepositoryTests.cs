@@ -1,7 +1,11 @@
-﻿using System;
+﻿#region
+
+using System;
 using NUnit.Framework;
 using StackUnderflow.Persistence.Entities;
 using StackUnderflow.Persistence.Repositories;
+
+#endregion
 
 namespace StackUnderflow.Tests.Persistence
 {
@@ -16,6 +20,14 @@ namespace StackUnderflow.Tests.Persistence
         }
 
         [Test]
+        public void SaveUserWithoutWebsite()
+        {
+            var user = new User {Name = "Ron"};
+            _userRepository.Save(user);
+            _userRepository.GetById(user.Id);
+        }
+
+        [Test]
         public void SavedUserGetsId()
         {
             var user = new User {Name = "Ron"};
@@ -27,20 +39,12 @@ namespace StackUnderflow.Tests.Persistence
         [Test]
         public void SavedUsersDetails_AreRetrieved()
         {
-            var user = new User { Name = "Ron" , WebsiteUrl = new Uri("http://foo.com")};
+            var user = new User {Name = "Ron", WebsiteUrl = new Uri("http://foo.com")};
             _userRepository.Save(user);
             var savedUser = _userRepository.GetById(user.Id);
-            
+
             Assert.AreEqual("Ron", savedUser.Name);
             Assert.AreEqual("http://foo.com/", savedUser.WebsiteUrl.AbsoluteUri);
-        }
-
-        [Test]
-        public void SaveUserWithoutWebsite()
-        {
-            var user = new User { Name = "Ron" };
-            _userRepository.Save(user);
-            _userRepository.GetById(user.Id);
         }
     }
 }

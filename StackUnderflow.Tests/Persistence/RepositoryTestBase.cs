@@ -1,6 +1,10 @@
-﻿using StackUnderflow.Model.Entities;
+﻿#region
+
+using StackUnderflow.Model.Entities;
 using StackUnderflow.Persistence.Entities;
 using StackUnderflow.Persistence.Repositories;
+
+#endregion
 
 namespace StackUnderflow.Tests.Persistence
 {

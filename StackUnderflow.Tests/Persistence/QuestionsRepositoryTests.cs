@@ -1,7 +1,11 @@
-﻿using System.Linq;
+﻿#region
+
+using System.Linq;
 using NUnit.Framework;
 using StackUnderflow.Persistence.Entities;
 using StackUnderflow.Persistence.Repositories;
+
+#endregion
 
 namespace StackUnderflow.Tests.Persistence
 {
@@ -20,7 +24,7 @@ namespace StackUnderflow.Tests.Persistence
         [Test]
         public void AddQuestion_IsRetrieved()
         {
-            var user = new User{Name="Jibi"};
+            var user = new User {Name = "Jibi"};
             _userRepository.Save(user);
 
             var question = QuestionsFactory.CreateQuestion(user);

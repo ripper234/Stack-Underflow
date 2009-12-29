@@ -1,8 +1,12 @@
-﻿using Castle.Windsor;
+﻿#region
+
+using Castle.Windsor;
 using NHibernate;
 using NUnit.Framework;
 using StackUnderflow.Bootstrap;
 using Tests;
+
+#endregion
 
 namespace StackUnderflow.Tests
 {

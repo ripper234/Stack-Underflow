@@ -1,4 +1,8 @@
-﻿using Castle.ActiveRecord;
+﻿#region
+
+using Castle.ActiveRecord;
+
+#endregion
 
 namespace StackUnderflow.Persistence.Repositories
 {

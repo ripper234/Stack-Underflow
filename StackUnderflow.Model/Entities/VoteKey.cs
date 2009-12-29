@@ -1,6 +1,9 @@
-﻿using System;
+﻿#region
+
+using System;
 using Castle.ActiveRecord;
-using StackUnderflow.Persistence.Entities;
+
+#endregion
 
 namespace StackUnderflow.Model.Entities
 {
@@ -23,6 +26,8 @@ namespace StackUnderflow.Model.Entities
         [KeyProperty]
         public int QuestionId { get; set; }
 
+        #region IEquatable<VoteKey> Members
+
         public bool Equals(VoteKey other)
         {
             if (ReferenceEquals(null, other)) return false;
@@ -30,19 +35,21 @@ namespace StackUnderflow.Model.Entities
             return other.UserId == UserId && other.QuestionId == QuestionId;
         }
 
+        #endregion
+
         public override bool Equals(object obj)
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
-            if (obj.GetType() != typeof(VoteKey)) return false;
-            return Equals((VoteKey)obj);
+            if (obj.GetType() != typeof (VoteKey)) return false;
+            return Equals((VoteKey) obj);
         }
 
         public override int GetHashCode()
         {
             unchecked
             {
-                return (UserId * 397) ^ QuestionId;
+                return (UserId*397) ^ QuestionId;
             }
         }
 
@@ -54,6 +61,11 @@ namespace StackUnderflow.Model.Entities
         public static bool operator !=(VoteKey left, VoteKey right)
         {
             return !Equals(left, right);
+        }
+
+        public override string ToString()
+        {
+            return string.Format("UserId: {0}, QuestionId: {1}", UserId, QuestionId);
         }
     }
 }
