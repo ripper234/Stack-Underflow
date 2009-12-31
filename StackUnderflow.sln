@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StackUnderflow.Persistence"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StackUnderflow.Common", "StackUnderflow.Common\StackUnderflow.Common.csproj", "{5D4D345B-DA06-4F9B-AB28-865C88B1A730}"
 EndProject
+Project("{00000000-0000-0000-0000-000000000000}") = "StackUnderflow.Web.Ui", "StackUnderflow.Web.Ui\StackUnderflow.Web.Ui.csproj", "{F59CC0A5-BF3F-4F83-B64C-EACF98C4044A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -83,6 +85,16 @@ Global
 		{5D4D345B-DA06-4F9B-AB28-865C88B1A730}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{5D4D345B-DA06-4F9B-AB28-865C88B1A730}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{5D4D345B-DA06-4F9B-AB28-865C88B1A730}.Release|x86.ActiveCfg = Release|Any CPU
+		{F59CC0A5-BF3F-4F83-B64C-EACF98C4044A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F59CC0A5-BF3F-4F83-B64C-EACF98C4044A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F59CC0A5-BF3F-4F83-B64C-EACF98C4044A}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{F59CC0A5-BF3F-4F83-B64C-EACF98C4044A}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{F59CC0A5-BF3F-4F83-B64C-EACF98C4044A}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{F59CC0A5-BF3F-4F83-B64C-EACF98C4044A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F59CC0A5-BF3F-4F83-B64C-EACF98C4044A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F59CC0A5-BF3F-4F83-B64C-EACF98C4044A}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{F59CC0A5-BF3F-4F83-B64C-EACF98C4044A}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{F59CC0A5-BF3F-4F83-B64C-EACF98C4044A}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

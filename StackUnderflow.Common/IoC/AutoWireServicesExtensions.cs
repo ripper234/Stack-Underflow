@@ -4,6 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Text.RegularExpressions;
+using System.Web.Mvc;
 using Castle.Core;
 using Castle.MicroKernel.Registration;
 using Castle.Windsor;
@@ -11,7 +13,7 @@ using StackUnderflow.IoC.Delver.Framework.IoC;
 
 #endregion
 
-namespace StackUnderflow.IoC
+namespace StackUnderflow.Common.IoC
 {
     /// <summary>
     ///   Allow auto wiring of services to the container using conventions
@@ -54,6 +56,31 @@ namespace StackUnderflow.IoC
             if (container == null)
                 throw new ArgumentNullException("container");
 
+            RegisterServiceInterfaces(container, assembly, implementationsToSkip);
+            RegisterControllersInAssembly(container, assembly);
+            return container;
+        }
+
+        private static void RegisterControllersInAssembly(IWindsorContainer container, Assembly assembly)
+        {
+            var types = from type in assembly.GetExportedTypes()
+                        where typeof (Controller).IsAssignableFrom(type) 
+                        select type;
+            foreach (var type in types)
+            {
+                var nameRegex = new Regex("(.*)Controller");
+                var match = nameRegex.Match(type.Name);
+                if (!match.Success)
+                    continue; // we auto-register only controllers named FooController
+
+                var component = Component.For(type).Named(match.Groups[1].Value).LifeStyle.PerWebRequest;
+                
+                container.Register(component);
+            }
+        }
+
+        private static void RegisterServiceInterfaces(IWindsorContainer container, Assembly assembly, ICollection<Type> implementationsToSkip)
+        {
             var types = from type in assembly.GetExportedTypes()
                         where type.IsAbstract == false
                               && type.IsInterface == false
@@ -93,8 +120,6 @@ namespace StackUnderflow.IoC
 
                 container.Register(registration);
             }
-
-            return container;
         }
 
         public static T GetAttribute<T>(this Type type)

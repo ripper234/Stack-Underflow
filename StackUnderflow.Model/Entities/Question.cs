@@ -1,5 +1,6 @@
 ﻿#region
 
+using System;
 using Castle.ActiveRecord;
 using StackUnderflow.Persistence.Entities;
 
@@ -21,5 +22,8 @@ namespace StackUnderflow.Model.Entities
 
         [BelongsTo]
         public User Author { get; set; }
+
+        [Property]
+        public DateTime UpdateDate { get; set; }
     }
 }

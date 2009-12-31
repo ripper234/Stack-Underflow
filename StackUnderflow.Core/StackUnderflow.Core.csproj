@@ -37,13 +37,15 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Bootstrap\Bootstrapper.cs" />
-    <Compile Include="IoC\AutoWireServicesExtensions.cs" />
-    <Compile Include="IoC\ImplementedByAttribute.cs" />
     <Compile Include="Bootstrap\NHibernateConfig.cs" />
     <Compile Include="Bootstrap\NHibernateConfigurator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\StackUnderflow.Common\StackUnderflow.Common.csproj">
+      <Project>{5D4D345B-DA06-4F9B-AB28-865C88B1A730}</Project>
+      <Name>StackUnderflow.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\StackUnderflow.Model\StackUnderflow.Model.csproj">
       <Project>{E641E041-6859-4201-9CB0-4439B96A0568}</Project>
       <Name>StackUnderflow.Model</Name>

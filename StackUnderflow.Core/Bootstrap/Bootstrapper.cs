@@ -1,8 +1,10 @@
 ﻿#region
 
+using System.Reflection;
 using Castle.Core.Resource;
 using Castle.Windsor;
 using Castle.Windsor.Configuration.Interpreters;
+using StackUnderflow.Common.IoC;
 using StackUnderflow.IoC;
 using StackUnderflow.Persistence.Repositories;
 
@@ -34,19 +36,16 @@ namespace StackUnderflow.Bootstrap
 //            ActiveRecordStarter.Initialize(typeof(User).Assembly, ActiveRecordSectionHandler.Instance);
 //        }
 
-        private WindsorContainer CreateContainer()
+        public WindsorContainer CreateContainer(params Assembly[] extreaAssemblies)
         {
             var container = new WindsorContainer(new XmlInterpreter(new FileResource("castle.xml")));
-//            var foo = new XmlInterpreter("");
-//            IConfigurationStore
-//            var config = new XmlConfigurationSource("castle.xml");
-//            var container = new WindsorContainer();
-            //container.Installer.SetUp(container, config);
             container.AutoWireServicesIn(typeof (IUserRepository).Assembly);
-            // avoid recreating session factory every test, bind it to a single instance
-//            container.Register(Component
-//                                   .For(typeof (ISessionFactory))
-//                                   .Instance(_sessionFactory));
+
+            foreach (var assembly in extreaAssemblies)
+            {
+                container.AutoWireServicesIn(assembly);
+            }
+
             return container;
         }
 

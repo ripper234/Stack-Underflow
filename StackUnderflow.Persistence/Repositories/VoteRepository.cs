@@ -14,11 +14,8 @@ namespace StackUnderflow.Persistence.Repositories
 {
     public class VoteRepository : RepositoryBase<VoteOnQuestion>, IVoteRepository
     {
-        private readonly ISessionFactory _sessionFactory;
-
-        public VoteRepository(ISessionFactory sessionFactory)
+        public VoteRepository(ISessionFactory sessionFactory) : base(sessionFactory)
         {
-            _sessionFactory = sessionFactory;
         }
 
         #region IVoteRepository Members
@@ -37,7 +34,7 @@ namespace StackUnderflow.Persistence.Repositories
         {
             try
             {
-                using (var session = _sessionFactory.OpenSession())
+                using (var session = SessionFactory.OpenSession())
                 {
                     var query =
                         session.CreateQuery(

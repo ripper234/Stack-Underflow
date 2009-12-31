@@ -8,5 +8,6 @@ namespace StackUnderflow.Persistence.Repositories
 {
     public interface IQuestionsRepository : IRepository<Question>
     {
+        Question[] GetNewestQuestions(int numberOfQuestions);
     }
 }
