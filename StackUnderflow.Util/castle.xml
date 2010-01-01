@@ -2,7 +2,7 @@
 
 <castle>
   <facilities>
-    <facility id="ActiveRecordFacility" type="Castle.Facilities.ActiveRecordIntegration.ActiveRecordFacility, Castle.Facilities.ActiveRecordIntegration" isDebug="true" isWeb="false">
+    <facility id="ActiveRecordFacility" type="Castle.Facilities.ActiveRecordIntegration.ActiveRecordFacility, Castle.Facilities.ActiveRecordIntegration" isDebug="true" isWeb="false" pluralizeTableNames="true">
 
       <!-- Configure the namespaces for the models using Active Record Intergration -->
       <assemblies>
