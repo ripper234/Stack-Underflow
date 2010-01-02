@@ -1,6 +1,6 @@
 ﻿#region
 
-using StackUnderflow.Persistence.Entities;
+using StackUnderflow.Model.Entities;
 
 #endregion
 

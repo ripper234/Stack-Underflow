@@ -5,6 +5,7 @@
 <head runat="server">
     <title><asp:ContentPlaceHolder ID="TitleContent" runat="server" /></title>
     <link href="../../Content/Site.css" rel="stylesheet" type="text/css" />
+    <link rel="shortcut icon" href="../../Content/favicon.ico">
 </head>
 
 <body>
@@ -12,7 +13,7 @@
 
         <div id="header">
             <div id="title">
-                <h1>Stack Underflow</h1>
+                <h1><%= Html.ActionLink("Stack Underflow", "Index", "Home")%></h1>
             </div>
               
             <div id="logindisplay">

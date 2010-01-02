@@ -2,7 +2,7 @@
 
 using System;
 using NUnit.Framework;
-using StackUnderflow.Persistence.Entities;
+using StackUnderflow.Model.Entities;
 using StackUnderflow.Persistence.Repositories;
 
 #endregion

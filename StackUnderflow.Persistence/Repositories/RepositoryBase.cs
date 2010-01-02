@@ -1,6 +1,5 @@
 ﻿#region
 
-using System;
 using Castle.ActiveRecord;
 using NHibernate;
 
@@ -8,7 +7,7 @@ using NHibernate;
 
 namespace StackUnderflow.Persistence.Repositories
 {
-    public abstract class RepositoryBase<T> where T : ActiveRecordBase<T>
+    public abstract class RepositoryBase<T> where T : class
     {
         protected RepositoryBase(ISessionFactory sessionFactory)
         {
@@ -25,14 +24,13 @@ namespace StackUnderflow.Persistence.Repositories
             return ActiveRecordBase<T>.Find(id);
         }
 
-        public void Save(T entity)
+        /// <summary>
+        /// This adds (saves) a new record.
+        /// </summary>
+        /// <param name="entity"></param>
+        public virtual void Save(T entity) 
         {
-            ValidateOnSave(entity);
-            entity.Save();
-        }
-
-        protected virtual void ValidateOnSave(T entity)
-        {
+            ActiveRecordMediator<T>.Save(entity);
         }
     }
 }

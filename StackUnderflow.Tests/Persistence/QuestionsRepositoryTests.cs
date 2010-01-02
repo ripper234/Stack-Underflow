@@ -4,7 +4,6 @@ using System;
 using System.Linq;
 using NUnit.Framework;
 using StackUnderflow.Model.Entities;
-using StackUnderflow.Persistence.Entities;
 using StackUnderflow.Persistence.Repositories;
 
 #endregion
@@ -53,7 +52,7 @@ namespace StackUnderflow.Tests.Persistence
             var savedQuestion = savedUser.Questions.Single();
             Assert.AreEqual(question.Id, savedQuestion.Id);
             Assert.AreEqual(question.Title, savedQuestion.Title);
-            Assert.AreEqual(question.Text, savedQuestion.Text);
+            Assert.AreEqual(question.Body, savedQuestion.Body);
         }
 
         [Test]
@@ -89,7 +88,7 @@ namespace StackUnderflow.Tests.Persistence
         {
             var user = new User {Name = "Foob"};
             _userRepository.Save(user);
-            var question = new Question{Author = user, Text = "Asdf", Title = "ASd"};
+            var question = new Question{Author = user, Body = "Asdf", Title = "ASd"};
             _questionsRepository.Save(question);
         }
     }

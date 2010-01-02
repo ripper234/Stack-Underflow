@@ -7,7 +7,7 @@ using Castle.ActiveRecord;
 namespace StackUnderflow.Model.Entities
 {
     [ActiveRecord("VotesOnQuestions")]
-    public class VoteOnQuestion : ActiveRecordBase<VoteOnQuestion>
+    public class VoteOnQuestion
     {
         [CompositeKey]
         public VoteKey Key { get; set; }

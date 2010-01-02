@@ -6,7 +6,6 @@ using Castle.ActiveRecord;
 using NHibernate;
 using StackUnderflow.Common;
 using StackUnderflow.Model.Entities;
-using StackUnderflow.Persistence.Entities;
 
 #endregion
 
@@ -27,7 +26,7 @@ namespace StackUnderflow.Persistence.Repositories
                                Key = new VoteKey {UserId = user.Id, QuestionId = question.Id},
                                Vote = voteType
                            };
-            vote.Create();
+            ActiveRecordMediator<VoteOnQuestion>.Create(vote);
         }
 
         public VoteCount GetVoteCount(int questionId)

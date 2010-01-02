@@ -1,6 +1,7 @@
 ﻿#region
 
 using System;
+using Castle.ActiveRecord;
 using NHibernate;
 using NHibernate.Criterion;
 using StackUnderflow.Model.Entities;
@@ -19,14 +20,17 @@ namespace StackUnderflow.Persistence.Repositories
 
         public Question[] GetNewestQuestions(int numberOfQuestions)
         {
-            return Question.SlicedFindAll(0, numberOfQuestions, new[] { Order.Desc("UpdateDate") });
+            return ActiveRecordMediator<Question>.SlicedFindAll(0, numberOfQuestions, new[] { Order.Desc("UpdateDate") });
         }
 
-        protected override void ValidateOnSave(Question entity)
+        public override void Save(Question question)
         {
-            base.ValidateOnSave(entity);
-            if (entity.UpdateDate == default(DateTime))
-                throw new Exception("Date not valid for question " + entity);
+            if (question.UpdateDate == default(DateTime) ||
+                question.AskedOn == default(DateTime))
+                throw new Exception("Date not valid for question " + question);
+
+            question.LastRelatedUser = question.Author;
+            ActiveRecordMediator<Question>.Save(question);
         }
     }
 

@@ -4,7 +4,7 @@ using NHibernate;
 
 #endregion
 
-namespace Tests
+namespace StackUnderflow
 {
     public static class DBUtils
     {

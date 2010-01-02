@@ -16,20 +16,30 @@ body
 a:link
 {
     color: #034af3;
-    text-decoration: underline;
+    text-decoration: none;
 }
 a:visited
 {
     color: #505abc;
+    text-decoration: none;
 }
 a:hover
 {
     color: #1d60ff;
-    text-decoration: none;
+    text-decoration: underline;
 }
 a:active
 {
     color: #12eb87;
+}
+div#title a
+{
+    color:white;
+    text-decoration:none;
+}
+a#question-self-link:visited
+{
+    color: #034af3;
 }
 
 p, ul
@@ -315,3 +325,30 @@ div#title
     font-weight: bold;
     color: #ff0000;
 }
+
+
+
+/** Our stuff */
+
+.question-summary {
+border-bottom:1px dotted #999999;
+overflow:hidden;
+padding:11px 0;
+width:730px;
+}
+
+.shortinfo 
+{
+    float:right;
+}
+
+.post-signature
+{
+    float:right;
+}
+
+/**
+.question-link
+{
+    text-decoration:none;
+}*/

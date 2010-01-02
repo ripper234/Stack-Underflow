@@ -2,7 +2,6 @@
 
 using System;
 using StackUnderflow.Model.Entities;
-using StackUnderflow.Persistence.Entities;
 
 #endregion
 
@@ -12,8 +11,11 @@ namespace StackUnderflow.Tests.Persistence
     {
         public static Question CreateQuestion(User user)
         {
-            return new Question {Author = user, Title = "Is there a god?", Text = "Well, is there?",
-                UpdateDate = DateTime.Now};
+            var creationDate = DateTime.Now;
+            return new Question {Author = user, Title = "Is there a god?", Body = "Well, is there?",
+                UpdateDate = creationDate,
+                                 AskedOn = creationDate
+            };
         }
     }
 }

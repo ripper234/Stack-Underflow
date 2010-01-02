@@ -3,14 +3,16 @@
 using System;
 using System.Collections.Generic;
 using Castle.ActiveRecord;
-using StackUnderflow.Model.Entities;
 
 #endregion
 
-namespace StackUnderflow.Persistence.Entities
+namespace StackUnderflow.Model.Entities
 {
+    // ReSharper disable UnusedAutoPropertyAccessor.Local
+    // ReSharper disable UnusedMember.Local
+
     [ActiveRecord]
-    public class User : ActiveRecordBase<User>
+    public class User
     {
         [PrimaryKey]
         public virtual int Id { get; private set; }
@@ -23,7 +25,6 @@ namespace StackUnderflow.Persistence.Entities
 
         public virtual Uri WebsiteUrl { get; set; }
 
-// ReSharper disable UnusedMember.Local
         [Property("Website")]
         private string WebsiteUrlString
         {
@@ -47,6 +48,11 @@ namespace StackUnderflow.Persistence.Entities
             }
         }
 
+        [Property]
+        public int Reputation {get; set; }
+
 // ReSharper restore UnusedMember.Local
+// ReSharper restore UnusedAutoPropertyAccessor.Local
+
     }
 }

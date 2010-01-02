@@ -17,6 +17,8 @@ namespace StackUnderflow.Web.Ui
         public static void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
+            routes.IgnoreRoute("{*favicon}", new { favicon = @"(.*/)?favicon.ico(/.*)?" });
+            routes.IgnoreRoute("{*css}", new { favicon = @"(.*/)?Site.css(/.*)?" });
 
             routes.MapRoute(
                 "Default",                                              // Route name
@@ -24,7 +26,7 @@ namespace StackUnderflow.Web.Ui
                 new { controller = "Home", action = "Index", id = "" }  // Parameter defaults
             );
 
-            routes.IgnoreRoute("{*favicon}", new { favicon = @"(.*/)?favicon.ico(/.*)?" });
+            
         }
 
         protected void Application_Start()
