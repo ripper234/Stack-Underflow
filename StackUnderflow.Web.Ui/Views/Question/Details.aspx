@@ -15,7 +15,7 @@
     </p>
     </div>
     <div class="post-signature author">
-        <div class="reltime">asked <span class="reltime-expanded"><%= TimeUtils.ToRelativeTimeDeatiled(Model.AskedOn) %></span></div>
+        <div class="reltime">asked <span class="reltime-expanded"><%= TimeUtils.ToRelativeTimeDeatiled(Model.AskedOn) + " ago"%></span></div>
         <% Html.RenderPartial("SmallUserDetails", Model.Author); %>
     </div>
 </asp:Content>

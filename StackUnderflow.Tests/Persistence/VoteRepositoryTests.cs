@@ -13,7 +13,7 @@ namespace StackUnderflow.Tests.Persistence
         [Test]
         public void AddAndReadVote()
         {
-            var user = SaveUser();
+            var user = UserFactory.CreateUser();
             var question = SaveQuestion(user);
             VoteRepository.AddVote(user, question, VoteType.ThumbUp);
             var vote = VoteRepository.GetVote(user, question);
@@ -26,10 +26,10 @@ namespace StackUnderflow.Tests.Persistence
         public void TwoThumbUpsAndOneThumbDown_CountVotesIsCorrect()
         {
             // prepare users
-            var askingUser = SaveUser();
-            var thumbUpper1 = SaveUser();
-            var thumbUpper2 = SaveUser();
-            var thumbDowner = SaveUser();
+            var askingUser = UserFactory.CreateUser();
+            var thumbUpper1 = UserFactory.CreateUser();
+            var thumbUpper2 = UserFactory.CreateUser();
+            var thumbDowner = UserFactory.CreateUser();
 
             // and question
             var question = SaveQuestion(askingUser);
@@ -48,7 +48,7 @@ namespace StackUnderflow.Tests.Persistence
         [Test]
         public void UnvotedQuestion_CountVotesIsZero()
         {
-            var user = SaveUser();
+            var user = UserFactory.CreateUser();
             var question = SaveQuestion(user);
 
             var voteCount = VoteRepository.GetVoteCount(question.Id);

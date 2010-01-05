@@ -51,6 +51,9 @@
     <Reference Include="Castle.Windsor">
       <HintPath>..\lib\Castle\Castle.Windsor.dll</HintPath>
     </Reference>
+    <Reference Include="DotNetOpenAuth">
+      <HintPath>..\lib\OpenAuth\DotNetOpenAuth.dll</HintPath>
+    </Reference>
     <Reference Include="mysql.data">
       <HintPath>..\lib\MySql\mysql.data.dll</HintPath>
     </Reference>
@@ -86,8 +89,10 @@
     <Reference Include="System.Web.Mobile" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\AuthenticationController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\QuestionController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -101,11 +106,15 @@
     </Content>
     <Content Include="Content\favicon.ico" />
     <Content Include="Global.asax" />
+    <Content Include="Views\Authentication\Authenticate.aspx" />
+    <Content Include="Views\Authentication\Login.aspx" />
     <Content Include="Views\Home\Index.aspx" />
     <Content Include="Views\Question\Details.aspx" />
     <Content Include="Views\Question\SmallUserDetails.ascx" />
     <Content Include="Views\Shared\QuestionLink.ascx" />
+    <Content Include="Views\Shared\TableRow.ascx" />
     <Content Include="Views\Shared\UserName.ascx" />
+    <Content Include="Views\User\Details.aspx" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -125,8 +134,8 @@
     <Content Include="Scripts\MicrosoftMvcAjax.js" />
     <Content Include="Scripts\MicrosoftMvcAjax.debug.js" />
     <Content Include="Scripts\MicrosoftMvcJQueryValidation.js" />
-    <Content Include="Views\Account\LogOn.aspx" />
-    <Content Include="Views\Account\Register.aspx" />
+    <Content Include="Views\AccountDeleteThis\LogOn.aspx" />
+    <Content Include="Views\AccountDeleteThis\Register.aspx" />
     <Content Include="Views\Home\About.aspx" />
     <Content Include="Views\Home\OldIndex.aspx" />
     <Content Include="Views\Shared\Error.aspx" />
@@ -182,7 +191,7 @@
         <WebProjectProperties>
           <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>55804</DevelopmentServerPort>
+          <DevelopmentServerPort>55648</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>
           </IISUrl>

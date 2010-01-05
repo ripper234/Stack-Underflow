@@ -22,7 +22,7 @@ namespace StackUnderflow.Tests.Persistence
         [Test]
         public void SaveUserWithoutWebsite()
         {
-            var user = new User {Name = "Ron"};
+            var user = new User {Name = "Ron", SignupDate = DateTime.Now, OpenId = "asdf"};
             _userRepository.Save(user);
             _userRepository.GetById(user.Id);
         }
@@ -30,7 +30,7 @@ namespace StackUnderflow.Tests.Persistence
         [Test]
         public void SavedUserGetsId()
         {
-            var user = new User {Name = "Ron"};
+            var user = new User { Name = "Ron", SignupDate = DateTime.Now, OpenId = "asdf" };
             Assert.AreEqual(0, user.Id);
             _userRepository.Save(user);
             Assert.AreNotEqual(0, user.Id);
@@ -39,7 +39,7 @@ namespace StackUnderflow.Tests.Persistence
         [Test]
         public void SavedUsersDetails_AreRetrieved()
         {
-            var user = new User {Name = "Ron", WebsiteUrl = new Uri("http://foo.com")};
+            var user = new User { Name = "Ron", SignupDate = DateTime.Now, OpenId = "asdf" ,WebsiteUrl = new Uri("http://foo.com")};
             _userRepository.Save(user);
             var savedUser = _userRepository.GetById(user.Id);
 

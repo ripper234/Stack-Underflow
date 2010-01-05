@@ -24,13 +24,6 @@ namespace StackUnderflow.Bootstrap
         {
         }
 
-        public WindsorContainer GetContainer()
-        {
-            var container = CreateContainer();
-            // InitializeActiveRecord();
-            return container;
-        }
-
 //        private static void InitializeActiveRecord()
 //        {
 //            ActiveRecordStarter.Initialize(typeof(User).Assembly, ActiveRecordSectionHandler.Instance);

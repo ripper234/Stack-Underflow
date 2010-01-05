@@ -14,19 +14,20 @@ namespace StackUnderflow.Tests.Persistence
     {
         private IQuestionsRepository _questionsRepository;
         private IUserRepository _userRepository;
+        private IUserFactory _userFactory;
 
         public override void FixtureSetupCore()
         {
             base.FixtureSetupCore();
             _questionsRepository = Resolve<IQuestionsRepository>();
             _userRepository = Resolve<IUserRepository>();
+            _userFactory = Resolve<IUserFactory>();
         }
 
         [Test]
         public void AddQuestion_IsRetrieved()
         {
-            var user = new User {Name = "Jibi"};
-            _userRepository.Save(user);
+            var user = CreateUser();
 
             var question = QuestionsFactory.CreateQuestion(user);
             _questionsRepository.Save(question);
@@ -40,8 +41,7 @@ namespace StackUnderflow.Tests.Persistence
         [Test]
         public void AddQuestion_GetAllUserQuestions()
         {
-            var user = new User {Name = "Foo"};
-            _userRepository.Save(user);
+            var user = CreateUser();
 
             var question = QuestionsFactory.CreateQuestion(user);
             _questionsRepository.Save(question);
@@ -58,8 +58,7 @@ namespace StackUnderflow.Tests.Persistence
         [Test]
         public void GetNewestQuestions()
         {
-            var user = new User {Name = "Foo"};
-            _userRepository.Save(user);
+            var user = CreateUser();
 
             // save some quetsions
             var question1 = QuestionsFactory.CreateQuestion(user);
@@ -80,6 +79,11 @@ namespace StackUnderflow.Tests.Persistence
             Assert.AreEqual(question2.Id, questions[0].Id);
             Assert.AreEqual(question3.Id, questions[1].Id);
             Assert.AreEqual(question1.Id, questions[2].Id);
+        }
+
+        private User CreateUser()
+        {
+            return _userFactory.CreateUser();
         }
 
         [ExpectedException]

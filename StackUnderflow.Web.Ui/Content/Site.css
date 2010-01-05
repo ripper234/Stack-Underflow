@@ -347,8 +347,7 @@ width:730px;
     float:right;
 }
 
-/**
-.question-link
+p.large-number
 {
-    text-decoration:none;
-}*/
+    font-size:x-large;
+}

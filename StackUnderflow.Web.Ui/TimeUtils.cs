@@ -26,18 +26,30 @@ namespace StackUnderflow.Web.Ui
         {
             var difference = DateTime.Now.Subtract(absoluteTime);
             if (difference.CompareTo(TimeSpan.FromSeconds(0)) < 0)
-                return "0 seconds ago";
+                return "0 seconds";
 
             if (difference.TotalSeconds < 60)
-                return ((int)difference.TotalSeconds) + " seconds ago";
+                return Pluralize(difference.TotalSeconds, "second");
 
             if (difference.TotalMinutes < 60)
-                return ((int)difference.TotalMinutes) + " minutes ago";
+                return Pluralize(difference.TotalMinutes, "minute");
 
             if (difference.TotalHours < 24)
-                return ((int)difference.TotalHours) + " hours ago";
+                return Pluralize(difference.TotalHours, "hour");
 
-            return ((int)difference.TotalDays) + " days ago";
+            return Pluralize(difference.TotalDays, "day");
+        }
+
+        private static string Pluralize(double x, string timeunit)
+        {
+            int n = (int) x;
+            if (n < 1)
+                throw new Exception("Expected at least 1 time unit: " + x);
+
+            if (n == 1)
+                return n + " " + timeunit;
+
+            return n + " " + timeunit + "s";
         }
     }
 }

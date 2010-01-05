@@ -30,11 +30,7 @@ namespace StackUnderflow.Model.Entities
         {
             get
             {
-                return WebsiteUrl == null
-                           ?
-                               null
-                           :
-                               WebsiteUrl.AbsoluteUri;
+                return WebsiteUrl == null ? null : WebsiteUrl.AbsoluteUri;
             }
             set
             {
@@ -50,6 +46,13 @@ namespace StackUnderflow.Model.Entities
 
         [Property]
         public int Reputation {get; set; }
+
+        [Property]
+        public DateTime SignupDate {get; set;}
+
+        [Property]
+        public string OpenId { get; set;}
+        
 
 // ReSharper restore UnusedMember.Local
 // ReSharper restore UnusedAutoPropertyAccessor.Local

@@ -12,6 +12,7 @@ namespace StackUnderflow.Tests.Persistence
         public IUserRepository UserRepository { get; private set; }
         public IQuestionsRepository QuestionsRepository { get; private set; }
         public IVoteRepository VoteRepository { get; private set; }
+        public IUserFactory UserFactory { get; private set; }
 
         public override void FixtureSetupCore()
         {
@@ -19,13 +20,7 @@ namespace StackUnderflow.Tests.Persistence
             UserRepository = Resolve<IUserRepository>();
             QuestionsRepository = Resolve<IQuestionsRepository>();
             VoteRepository = Resolve<IVoteRepository>();
-        }
-
-        protected User SaveUser()
-        {
-            var user = new User {Name = "Chop Sui"};
-            UserRepository.Save(user);
-            return user;
+            UserFactory = Resolve<IUserFactory>();
         }
 
         protected Question SaveQuestion(User user)

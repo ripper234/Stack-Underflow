@@ -16,7 +16,7 @@ namespace StackUnderflow.Tests
         [TestFixtureSetUp]
         public virtual void FixtureSetup()
         {
-            Container = Bootstrapper.Instance.GetContainer();
+            Container = Bootstrapper.Instance.CreateContainer(typeof(IntegrationTestBase).Assembly);
             FixtureSetupCore();
         }
 

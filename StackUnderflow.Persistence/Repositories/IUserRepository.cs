@@ -8,5 +8,6 @@ namespace StackUnderflow.Persistence.Repositories
 {
     public interface IUserRepository : IRepository<User>
     {
+        User FindByOpenId(string openId);
     }
 }
