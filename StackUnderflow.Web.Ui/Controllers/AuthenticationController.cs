@@ -43,7 +43,8 @@ namespace StackUnderflow.Web.Ui.Controllers
                     // Stage 2: user submitting Identifier
                     var openId = Request.Form["openId"];
                     relayingParty.CreateRequest(openId).RedirectToProvider();
-                    throw new Exception("Should never get here");
+                    
+                    throw new Exception("Never gets here");
                 }
                 
                 // Stage 3: OpenID Provider sending assertion response
@@ -56,7 +57,10 @@ namespace StackUnderflow.Web.Ui.Controllers
                         {
                             // login
                             FormsAuthentication.RedirectFromLoginPage(user.Id.ToString(), false);
-                            throw new Exception("Should never get here");
+                            return new EmptyResult();
+
+                            // TODO - http://stackoverflow.com/questions/1991710/understanding-redirections-in-asp-net-mvc
+                            // throw new Exception("Should never get here");
                         }
                         
                         // register

@@ -68,7 +68,12 @@ namespace StackUnderflow.Util
         {
             foreach (var name in names)
             {
-                var user = new User {Name = name};
+                var user = new User
+                               {
+                                   Name = name, 
+                                   SignupDate = DateTime.Now.Subtract(TimeSpan.FromHours(_random.Next(200))),
+                                   OpenId = "abc" + _random.Next(1000000),
+                               };
                 _userRepository.Save(user);
                 _users.Add(user);
             }
