@@ -5,7 +5,7 @@
 <head runat="server">
     <title><asp:ContentPlaceHolder ID="TitleContent" runat="server" /></title>
     <link href="../../Content/Site.css" rel="stylesheet" type="text/css" />
-    <link rel="shortcut icon" href="../../Content/favicon.ico">
+    <link rel="shortcut icon" href="../../Content/favicon.ico" />
 </head>
 
 <body>

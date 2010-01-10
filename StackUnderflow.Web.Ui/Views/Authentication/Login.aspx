@@ -9,7 +9,7 @@
     <h2>Login or register using OpenID</h2>
     <p>Please enter your openID to login or register</p>
     <div>
-    <% using (Html.BeginForm("Authenticate", "Authentication"))
+    <% using (Html.BeginForm("Authenticate", "Authentication", new {ReturnUrl = Request.QueryString["ReturnUrl"]}))
        { %>
         
             <fieldset>

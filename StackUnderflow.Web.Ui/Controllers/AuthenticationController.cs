@@ -93,6 +93,10 @@ namespace StackUnderflow.Web.Ui.Controllers
         public ActionResult Logout()
         {
             FormsAuthentication.SignOut();
+            var returnUrl = Request.QueryString["ReturnUrl"];
+            if (returnUrl != null)
+                return Redirect(returnUrl);
+            
             return RedirectToAction("Index", "Home");
         }
     }
