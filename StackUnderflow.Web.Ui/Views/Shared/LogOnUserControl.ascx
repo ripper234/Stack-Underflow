@@ -1,12 +1,8 @@
-﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl" %>
-<%@ Import Namespace="StackUnderflow.Model.Entities" %>
-<%@ Import Namespace="StackUnderflow.Web.Ui.Utils" %>
+﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<StackUnderflow.Web.Ui.Model.ModelBase>" %>
 <%
-    if (Request.IsAuthenticated) {
+    if (Model.LoggedInUser != null) {
 %>
-        Welcome <b><%= 
-                       Html.Encode(UserContainer.GetUser(ViewData, Page.User.Identity.Name).Name)
-                       %></b>!
+        Welcome <b><%= Html.Encode(Model.LoggedInUser.Name) %></b>!
         [ <%= Html.ActionLink("Logout", "Logout", "Authentication", new { returnUrl = ViewContext.HttpContext.Request.Url.PathAndQuery }, null)%> ]
 <%
     }

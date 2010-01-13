@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IEnumerable<StackUnderflow.Model.Entities.Question>>" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<StackUnderflow.Web.Ui.Model.ItemsModel<StackUnderflow.Model.Entities.Question>>" %>
 <%@ Import Namespace="StackUnderflow.Web.Ui" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
@@ -9,7 +9,7 @@
 
     <h2>Recent Questions</h2>
 
-    <% foreach (var item in Model) { %>
+    <% foreach (var item in Model.Items) { %>
         <div id="<%= Html.Encode(item.Id) %>" class="question-summary">
             <h3><% Html.RenderPartial("QuestionLink", item); %></h3>
             <div class="shortinfo">

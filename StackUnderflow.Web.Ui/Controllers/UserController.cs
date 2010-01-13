@@ -1,20 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using System.Web.Mvc.Ajax;
+﻿using System.Web.Mvc;
 using StackUnderflow.Persistence.Repositories;
 
 namespace StackUnderflow.Web.Ui.Controllers
 {
-    public class UserController : Controller
+    public class UserController : UserAwareController
     {
-        private readonly IUserRepository _userRepository;
-
-        public UserController(IUserRepository userRepository)
+        public UserController(IUserRepository userRepository) : base(userRepository)
         {
-            _userRepository = userRepository;
         }
 
         //
@@ -30,33 +22,7 @@ namespace StackUnderflow.Web.Ui.Controllers
 
         public ActionResult Details(int id)
         {
-            return View(_userRepository.GetById(id));
-        }
-
-        //
-        // GET: /User/Create
-
-        public ActionResult Create()
-        {
-            return View();
-        } 
-
-        //
-        // POST: /User/Create
-
-        [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult Create(FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add insert logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
+            return UserView(Users.GetById(id));
         }
 
         //
@@ -64,7 +30,7 @@ namespace StackUnderflow.Web.Ui.Controllers
  
         public ActionResult Edit(int id)
         {
-            return View();
+            return UserView();
         }
 
         //
@@ -81,7 +47,7 @@ namespace StackUnderflow.Web.Ui.Controllers
             }
             catch
             {
-                return View();
+                return UserView();
             }
         }
     }

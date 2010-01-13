@@ -1,18 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using System.Web.Mvc.Ajax;
 using StackUnderflow.Persistence.Repositories;
 
 namespace StackUnderflow.Web.Ui.Controllers
 {
-    public class QuestionController : Controller
+    public class QuestionController : UserAwareController
     {
         private readonly IQuestionsRepository _questionsRepository;
 
-        public QuestionController(IQuestionsRepository questionsRepository)
+        public QuestionController(IQuestionsRepository questionsRepository, 
+                                        IUserRepository userRepository) : base(userRepository)
         {
             _questionsRepository = questionsRepository;
         }
@@ -22,41 +19,16 @@ namespace StackUnderflow.Web.Ui.Controllers
 
         public ActionResult Details(int id)
         {
-            return View(_questionsRepository.GetById(id));
+            return UserView(_questionsRepository.GetById(id));
         }
 
-        //
-        // GET: /Question/Create
-
-        public ActionResult Create()
-        {
-            return View();
-        } 
-
-        //
-        // POST: /Question/Create
-
-        [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult Create(FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add insert logic here
-                throw new NotImplementedException();
-                //return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
 
         //
         // GET: /Question/Edit/5
  
         public ActionResult Edit(int id)
         {
-            return View();
+            return UserView();
         }
 
         //
@@ -73,7 +45,7 @@ namespace StackUnderflow.Web.Ui.Controllers
             }
             catch
             {
-                return View();
+                return UserView();
             }
         }
     }

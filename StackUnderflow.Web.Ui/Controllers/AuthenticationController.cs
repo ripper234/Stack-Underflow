@@ -1,10 +1,8 @@
 ﻿#region
 
 using System;
-using System.Text.RegularExpressions;
 using System.Web.Mvc;
 using System.Web.Security;
-using DotNetOpenAuth.OpenId;
 using DotNetOpenAuth.OpenId.RelyingParty;
 using StackUnderflow.Model.Entities;
 using StackUnderflow.Persistence.Repositories;
@@ -13,13 +11,10 @@ using StackUnderflow.Persistence.Repositories;
 
 namespace StackUnderflow.Web.Ui.Controllers
 {
-    public class AuthenticationController : Controller
+    public class AuthenticationController : UserAwareController
     {
-        private readonly IUserRepository _userRepository;
-
-        public AuthenticationController(IUserRepository userRepository)
+        public AuthenticationController(IUserRepository userRepository) : base(userRepository)
         {
-            _userRepository = userRepository;
         }
 
         //
@@ -27,7 +22,7 @@ namespace StackUnderflow.Web.Ui.Controllers
 
         public ActionResult Login()
         {
-            return View();
+            return UserView(CreateModel());
         }
 
         //
@@ -52,15 +47,11 @@ namespace StackUnderflow.Web.Ui.Controllers
                 {
                     case AuthenticationStatus.Authenticated:
                         var claimedIdentifier = response.ClaimedIdentifier;
-                        var user = _userRepository.FindByOpenId(claimedIdentifier);
+                        var user = Users.FindByOpenId(claimedIdentifier);
                         if (user != null)
                         {
                             // login
-                            FormsAuthentication.RedirectFromLoginPage(user.Id.ToString(), false);
-                            return new EmptyResult();
-
-                            // TODO - http://stackoverflow.com/questions/1991710/understanding-redirections-in-asp-net-mvc
-                            // throw new Exception("Should never get here");
+                            return RedirectFromLoginPage(user);
                         }
                         
                         // register
@@ -72,22 +63,29 @@ namespace StackUnderflow.Web.Ui.Controllers
                                            Reputation = 1,
                                            SignupDate = DateTime.Now
                                        };
-                        _userRepository.Save(user);
-                        FormsAuthentication.RedirectFromLoginPage(user.Id.ToString(), false);
-                        throw new Exception("Should never get here");
+                        Users.Save(user);
+                        return RedirectFromLoginPage(user);
 
                     case AuthenticationStatus.Canceled:
                         ViewData["Message"] = "Canceled at provider";
+                        // todo
                         return View("Login");
 
                     case AuthenticationStatus.Failed:
                         ViewData["Message"] = response.Exception.Message;
+                        // todo
                         return View("Login");
 
                     default:
                         throw new Exception("Unknown status");
                 }
             }
+        }
+
+        private ActionResult RedirectFromLoginPage(User user)
+        {
+            FormsAuthentication.RedirectFromLoginPage(user.Id.ToString(), false);
+            return new EmptyResult();
         }
 
         public ActionResult Logout()

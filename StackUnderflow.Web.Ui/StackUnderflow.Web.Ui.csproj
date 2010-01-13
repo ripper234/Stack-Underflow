@@ -92,13 +92,17 @@
     <Compile Include="Controllers\AuthenticationController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\QuestionController.cs" />
+    <Compile Include="Controllers\UserAwareController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Model\EmptyModel.cs" />
+    <Compile Include="Model\ItemModel.cs" />
+    <Compile Include="Model\ItemsModel.cs" />
+    <Compile Include="Model\ModelBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utils\TimeUtils.cs" />
-    <Compile Include="Utils\UserContainer.cs" />
     <Compile Include="Utils\WindsorControllerFactory.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -138,7 +142,6 @@
     <Content Include="Views\AccountDeleteThis\LogOn.aspx" />
     <Content Include="Views\AccountDeleteThis\Register.aspx" />
     <Content Include="Views\Home\About.aspx" />
-    <Content Include="Views\Home\OldIndex.aspx" />
     <Content Include="Views\Shared\Error.aspx" />
     <Content Include="Views\Shared\LogOnUserControl.ascx" />
     <Content Include="Views\Shared\Site.Master" />
