@@ -351,3 +351,11 @@ p.large-number
 {
     font-size:x-large;
 }
+.vote {
+text-align:center;
+vertical-align:middle;
+}
+.votecol {
+vertical-align:top;
+width:60px;
+}

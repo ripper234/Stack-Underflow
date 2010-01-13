@@ -1,4 +1,6 @@
-﻿namespace StackUnderflow.Persistence.Repositories
+﻿using System;
+
+namespace StackUnderflow.Persistence.Repositories
 {
     public class VoteCount
     {
@@ -13,5 +15,10 @@
 
         public int ThumbUps { get; set; }
         public int ThumbDowns { get; set; }
+
+        public int Total
+        {
+            get { return ThumbUps - ThumbDowns; }
+        }
     }
 }

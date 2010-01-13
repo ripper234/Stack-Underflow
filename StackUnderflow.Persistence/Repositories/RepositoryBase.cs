@@ -19,7 +19,7 @@ namespace StackUnderflow.Persistence.Repositories
             get; private set;
         }
 
-        public T GetById(int id)
+        public virtual T GetById(int id)
         {
             return ActiveRecordBase<T>.Find(id);
         }

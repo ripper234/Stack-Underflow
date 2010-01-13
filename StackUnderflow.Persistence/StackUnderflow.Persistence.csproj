@@ -66,6 +66,8 @@
     <Compile Include="Repositories\UserRepository.cs" />
     <Compile Include="Repositories\VoteCount.cs" />
     <Compile Include="Repositories\VoteRepository.cs" />
+    <Compile Include="RichRepositories\IRichQuestionRepository.cs" />
+    <Compile Include="RichRepositories\RichQuestionRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\StackUnderflow.Common\StackUnderflow.Common.csproj">

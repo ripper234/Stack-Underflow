@@ -53,11 +53,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Entities\Question.cs" />
-    <Compile Include="Entities\User.cs" />
-    <Compile Include="Entities\VoteKey.cs" />
-    <Compile Include="Entities\VoteOnQuestion.cs" />
-    <Compile Include="Entities\VoteType.cs" />
+    <Compile Include="Entities\DB\Question.cs" />
+    <Compile Include="Entities\DB\User.cs" />
+    <Compile Include="Entities\DB\VoteKey.cs" />
+    <Compile Include="Entities\DB\VoteOnQuestion.cs" />
+    <Compile Include="Entities\DB\VoteType.cs" />
+    <Compile Include="Entities\Rich\RichQuestion.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
