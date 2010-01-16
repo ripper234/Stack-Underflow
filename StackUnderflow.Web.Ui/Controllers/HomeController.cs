@@ -1,16 +1,17 @@
 ﻿using System.Web.Mvc;
 using StackUnderflow.Persistence.Repositories;
+using StackUnderflow.Persistence.RichRepositories;
 
 namespace StackUnderflow.Web.Ui.Controllers
 {
     public class HomeController : UserAwareController
     {
-        private readonly IQuestionsRepository _questionsRepository;
+        private readonly IRichQuestionRepository _richQuestionsRepository;
 
         public HomeController(IUserRepository userRepository, 
-                                 IQuestionsRepository questionsRepository) : base(userRepository)
+                                 IRichQuestionRepository richQuestionsRepository) : base(userRepository)
         {
-            _questionsRepository = questionsRepository;
+            _richQuestionsRepository = richQuestionsRepository;
         }
 
         //
@@ -18,7 +19,7 @@ namespace StackUnderflow.Web.Ui.Controllers
 
         public ActionResult Index()
         {
-            return UserView(_questionsRepository.GetNewestQuestions(10));
+            return MultipleUserView(_richQuestionsRepository.GetNewestQuestions(10));
         }
     }
 }

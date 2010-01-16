@@ -18,7 +18,7 @@
         <table>
         <tr>
             <td class="votecol">
-                <div class="votes">
+                <div class="vote">
                     <input type="hidden" value="<%= Html.Encode(Model.Item.Question.Id) %>" />
                     <img class="vote-up" title="This problem is interesting and well formed" alt="Upvote" src="<%= ImageHelper.ImageForVote(VoteType.ThumbUp, Model.Item.CurrentUsersVote) %>" width="21" height="19"/>
                     <span class="total-votes"><%= Html.Encode(VoteUtil.VotesToString(Model.Item.Votes))%></span>

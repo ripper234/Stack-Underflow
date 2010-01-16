@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace StackUnderflow.Common
 {
@@ -17,6 +16,12 @@ namespace StackUnderflow.Common
         public static T Random<T>(this IList<T> list, Random random)
         {
             return list.Skip(random.Next(list.Count)).First();
+        }
+
+        public static TValue GetOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> dict, TKey key)
+        {
+            TValue value;
+            return dict.TryGetValue(key, out value) ? value : default(TValue);
         }
     }
 }

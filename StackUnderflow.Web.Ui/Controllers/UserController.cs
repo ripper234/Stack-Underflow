@@ -22,7 +22,7 @@ namespace StackUnderflow.Web.Ui.Controllers
 
         public ActionResult Details(int id)
         {
-            return UserView(Users.GetById(id));
+            return SingleUserView(Users.GetById(id));
         }
 
         //
@@ -30,7 +30,7 @@ namespace StackUnderflow.Web.Ui.Controllers
  
         public ActionResult Edit(int id)
         {
-            return UserView();
+            return EmptyUserView();
         }
 
         //
@@ -47,7 +47,7 @@ namespace StackUnderflow.Web.Ui.Controllers
             }
             catch
             {
-                return UserView();
+                return EmptyUserView();
             }
         }
     }

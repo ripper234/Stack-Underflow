@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using StackUnderflow.Common;
 using StackUnderflow.Model.Entities;
 using StackUnderflow.Model.Entities.Rich;
 using StackUnderflow.Persistence.Repositories;
@@ -36,7 +37,7 @@ namespace StackUnderflow.Persistence.RichRepositories
         {
             var questions = _questionsRepository.GetNewestQuestions(numberOfQuestions);
             var votes = _voteRepository.GetVoteCount(questions.Select(q => q.Id));
-            return questions.Select(q => new RichQuestion(q, votes[q.Id], null)).ToList();
+            return questions.Select(q => new RichQuestion(q, votes.GetOrDefault(q.Id), null)).ToList();
         }
     }
 }

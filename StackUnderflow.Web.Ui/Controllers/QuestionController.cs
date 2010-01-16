@@ -23,7 +23,7 @@ namespace StackUnderflow.Web.Ui.Controllers
 
         public ActionResult Details(int id)
         {
-            return UserView(_richQuestionRepository.GetById(CurrentUser, id));
+            return SingleUserView(_richQuestionRepository.GetById(CurrentUser, id));
         }
 
 
@@ -32,7 +32,7 @@ namespace StackUnderflow.Web.Ui.Controllers
  
         public ActionResult Edit(int id)
         {
-            return UserView();
+            return EmptyUserView();
         }
 
         //
@@ -49,7 +49,7 @@ namespace StackUnderflow.Web.Ui.Controllers
             }
             catch
             {
-                return UserView();
+                return EmptyUserView();
             }
         }
     }

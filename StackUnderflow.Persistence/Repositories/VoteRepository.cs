@@ -33,15 +33,15 @@ namespace StackUnderflow.Persistence.Repositories
                 Vote = voteType
             };
 
-            // http://stackoverflow.com/questions/2077107/insert-or-update-in-castle-activerecord
             try
             {
                 ActiveRecordMediator<VoteOnQuestion>.Create(vote);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 ActiveRecordMediator<VoteOnQuestion>.Update(vote);
             }
+            //ActiveRecordMediator<VoteOnQuestion>.Save(vote);
         }
 
         public void RemoveVote(int voter, int question)
@@ -53,7 +53,8 @@ namespace StackUnderflow.Persistence.Repositories
             }
             catch (Exception)
             {
-                // 
+                // swallow it, the deleted object is really not there
+                // todo - should catch a specific exception, not just any
             }
         }
 

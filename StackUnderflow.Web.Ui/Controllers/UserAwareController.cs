@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 using StackUnderflow.Model.Entities;
 using StackUnderflow.Persistence.Repositories;
@@ -16,22 +17,22 @@ namespace StackUnderflow.Web.Ui.Controllers
             Users = userRepository;
         }
 
-        protected ModelBase CreateModel()
+        private ModelBase CreateEmptyModel()
         {
             return new EmptyModel(CurrentUser);
         }
 
-        protected ModelBase CreateModel<T>(T item)
+        private ModelBase CreateSingleModel<T>(T item)
         {
             return new ItemModel<T>(CurrentUser, item);
         }
 
-        protected ModelBase CreateModel<T>(T[] items)
+        private ModelBase CreateMultipleModel<T>(T[] items)
         {
             return new ItemsModel<T>(CurrentUser, items);
         }
 
-        protected ModelBase CreateModel<T>(IEnumerable<T> items)
+        private ModelBase CreateMultipleModel<T>(IEnumerable<T> items)
         {
             return new ItemsModel<T>(CurrentUser, items);
         }
@@ -52,24 +53,29 @@ namespace StackUnderflow.Web.Ui.Controllers
             }
         }
 
-        protected ActionResult UserView<T>(IEnumerable<T> items)
+        protected ActionResult MultipleUserView<T>(IEnumerable<T> items)
         {
-            return View(CreateModel(items));
+            return MultipleUserView(items.ToList());
         }
 
-        protected ActionResult UserView<T>(T[] items)
+        protected ActionResult MultipleUserView<T>(T[] items)
         {
-            return View(CreateModel(items));
+            return MultipleUserView(items.ToList());
         }
 
-        protected ActionResult UserView<T>(T item)
+        protected ActionResult MultipleUserView<T>(IList<T> items)
         {
-            return View(CreateModel(item));
+            return View(CreateMultipleModel(items));
         }
 
-        protected ActionResult UserView()
+        protected ActionResult SingleUserView<T>(T item)
         {
-            return View(CreateModel());
+            return View(CreateSingleModel(item));
+        }
+
+        protected ActionResult EmptyUserView()
+        {
+            return View(CreateEmptyModel());
         }
     }
 }

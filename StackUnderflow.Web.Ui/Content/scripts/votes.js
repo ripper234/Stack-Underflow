@@ -50,47 +50,44 @@ function handleVote(element, voteType) {
             alert("Wasn''t or nor off, something is wrong");
             return;
         }
-        $.post("/Vote/ProcessVote/", { questionId: questionId, voteType: voteType, wasOn: wasOn}, function (data) {
-            try
+        var diffMultiplier = 1;
+        var src;
+        if (wasOn)
+        {    
+            toggleButton(element.context);
+        }
+        else
+        {
+            otherOnElement = element.siblings("img").get(0);
+            if (otherOnElement != null && otherOnElement.attributes["src"].nodeValue.indexOf("_on") != -1)
             {
-                switch (data)
-                {
-                   case StackUnderflow.VoteResultType.OK:
-                        var diffMultiplier = 1;
-                        var src;
-                        if (wasOn)
-                        {    
-                            toggleButton(element.context);
-                        }
-                        else
-                        {
-                            otherOnElement = element.siblings("img").get(0);
-                            if (otherOnElement != null && otherOnElement.attributes["src"].nodeValue.indexOf("_on") != -1)
-                            {
-                                toggleButton(otherOnElement);
-                                diffMultiplier = 2;
-                            }
-                            toggleButton(element.context);
-                        }
-                        
-                        var totalVotesText = element.parent().find(".total-votes");
-                        var currentVotes = parseInt(totalVotesText.html(), 10);
-                        currentVotes += recalcVotesDiff(wasOn, voteType) * diffMultiplier;
-                        totalVotesText.html(currentVotes);
-                        
-                        break;
-                    
-                   case StackUnderflow.VoteResultType.NOT_LOGGED_IN:
-                       alert("Not logged in");
-                        break;
-                    
-                   default:
-                        alert("Incorrect result: " + data);
-                }
+                toggleButton(otherOnElement);
+                diffMultiplier = 2;
             }
-            catch (err)
+            toggleButton(element.context);
+        }
+        
+        var totalVotesText = element.parent().find(".total-votes");
+        var currentVotes = parseInt(totalVotesText.html(), 10);
+        currentVotes += recalcVotesDiff(wasOn, voteType) * diffMultiplier;
+        totalVotesText.html(currentVotes);
+            
+        $.post("/Vote/ProcessVote/", { questionId: questionId, voteType: voteType, wasOn: wasOn}, function (data) {
+            // undo bad vote-up
+            switch (data)
             {
-                alert(err);
+            case StackUnderflow.VoteResultType.OK:
+                // all is well, nothing to do
+                break;
+                
+            case StackUnderflow.VoteResultType.NOT:
+                // TODO
+                alert("not logged in");
+                break;
+                
+            default:
+                alert("Unexpected data: " + data);
+                break;
             }
         }, "json");
     }

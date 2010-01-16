@@ -22,7 +22,7 @@ namespace StackUnderflow.Web.Ui.Controllers
 
         public ActionResult Login()
         {
-            return UserView(CreateModel());
+            return EmptyUserView();
         }
 
         //
