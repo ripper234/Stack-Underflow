@@ -125,6 +125,7 @@
     <Content Include="Views\Authentication\Authenticate.aspx" />
     <Content Include="Views\Authentication\Login.aspx" />
     <Content Include="Views\Home\Index.aspx" />
+    <Content Include="Views\Question\Ask.aspx" />
     <Content Include="Views\Question\Details.aspx" />
     <Content Include="Views\Question\SmallUserDetails.ascx" />
     <Content Include="Views\Shared\QuestionLink.ascx" />

@@ -355,7 +355,29 @@ p.large-number
 text-align:center;
 vertical-align:middle;
 }
+.vote *
+{
+    display:block;
+}
+div.vote
+{
+    position:relative;
+    margin: 0 auto;
+}
+div.vote img
+{
+    cursor: pointer;
+    margin-top:0px;
+    margin-left:0px;
+}
 .votecol {
 vertical-align:top;
 width:60px;
+}
+.question-body {
+font-size:107%;
+line-height:130%;
+margin-bottom:5px;
+margin-right:5px;
+width:660px;
 }

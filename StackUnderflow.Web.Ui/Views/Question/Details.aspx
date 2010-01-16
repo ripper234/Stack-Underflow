@@ -20,8 +20,8 @@
             <td class="votecol">
                 <div class="vote">
                     <input type="hidden" value="<%= Html.Encode(Model.Item.Question.Id) %>" />
-                    <img class="vote-up" title="This problem is interesting and well formed" alt="Upvote" src="<%= ImageHelper.ImageForVote(VoteType.ThumbUp, Model.Item.CurrentUsersVote) %>" width="21" height="19"/>
                     <span class="total-votes"><%= Html.Encode(VoteUtil.VotesToString(Model.Item.Votes))%></span>
+                    <img class="vote-up" title="This problem is interesting and well formed" alt="Upvote" src="<%= ImageHelper.ImageForVote(VoteType.ThumbUp, Model.Item.CurrentUsersVote) %>" width="21" height="19"/>
                     <img class="vote-down" title="This problem is not interesting or confusing" alt="Downvote" src="<%= ImageHelper.ImageForVote(VoteType.ThumbDown, Model.Item.CurrentUsersVote) %>" width="22" height="20" />
                 </div>
             </td>

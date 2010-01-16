@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Web.Mvc;
+using StackUnderflow.Model.Entities;
 using StackUnderflow.Persistence.Repositories;
 using StackUnderflow.Persistence.RichRepositories;
 
@@ -51,6 +52,38 @@ namespace StackUnderflow.Web.Ui.Controllers
             {
                 return EmptyUserView();
             }
+        }
+
+        public ActionResult Ask()
+        {
+            if (CurrentUser == null)
+                return RedirectToLoginPage();
+
+            return EmptyUserView();
+        }
+
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult Ask(string title, string body)
+        {
+            if (CurrentUser == null)
+                return RedirectToLoginPage();
+            var now = DateTime.Now;
+            var question = new Question
+                {
+                    AskedOn = now,
+                    Author = CurrentUser,
+                    Body = body,
+                    LastRelatedUser = CurrentUser,
+                    Title = title,
+                    UpdateDate = now,
+                };
+            _questionsRepository.Save(question);
+            return RedirectToAction("Details", new {id = question.Id});
+        }
+
+        private ActionResult RedirectToLoginPage()
+        {
+            return RedirectToAction("Login", "Authentication");
         }
     }
 }
