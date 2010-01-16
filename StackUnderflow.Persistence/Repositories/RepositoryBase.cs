@@ -1,7 +1,8 @@
-﻿#region
+#region
 
 using Castle.ActiveRecord;
 using NHibernate;
+using StackUnderflow.Model.Entities;
 
 #endregion
 

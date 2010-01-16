@@ -37,6 +37,7 @@
     <Reference Include="Castle.ActiveRecord.Linq">
       <HintPath>..\lib\Castle\Castle.ActiveRecord.Linq.dll</HintPath>
     </Reference>
+    <Reference Include="Castle.Core, Version=1.1.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL" />
     <Reference Include="FluentNHibernate">
       <HintPath>..\lib\Fluent\FluentNHibernate.dll</HintPath>
     </Reference>

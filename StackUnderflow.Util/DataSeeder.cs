@@ -47,12 +47,12 @@ namespace StackUnderflow.Util
 
         private void AddVotes()
         {
-            _voteRepository.AddVote(_users[0], _questions[0], VoteType.ThumbUp);
-            _voteRepository.AddVote(_users[1], _questions[0], VoteType.ThumbUp);
-            _voteRepository.AddVote(_users[0], _questions[1], VoteType.ThumbUp);
-            _voteRepository.AddVote(_users[1], _questions[1], VoteType.ThumbDown);
-            _voteRepository.AddVote(_users[2], _questions[1], VoteType.ThumbUp);
-            _voteRepository.AddVote(_users[2], _questions[2], VoteType.ThumbDown);
+            _voteRepository.CreateOrUpdateVote(_users[0], _questions[0], VoteType.ThumbUp);
+            _voteRepository.CreateOrUpdateVote(_users[1], _questions[0], VoteType.ThumbUp);
+            _voteRepository.CreateOrUpdateVote(_users[0], _questions[1], VoteType.ThumbUp);
+            _voteRepository.CreateOrUpdateVote(_users[1], _questions[1], VoteType.ThumbDown);
+            _voteRepository.CreateOrUpdateVote(_users[2], _questions[1], VoteType.ThumbUp);
+            _voteRepository.CreateOrUpdateVote(_users[2], _questions[2], VoteType.ThumbDown);
         }
 
         private void AddQuestion()

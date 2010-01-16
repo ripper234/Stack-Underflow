@@ -23,7 +23,7 @@ namespace StackUnderflow.Web.Ui.Controllers
 
         public ActionResult Details(int id)
         {
-            return UserView(_richQuestionRepository.GetById(id));
+            return UserView(_richQuestionRepository.GetById(CurrentUser, id));
         }
 
 

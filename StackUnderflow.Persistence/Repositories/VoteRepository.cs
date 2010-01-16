@@ -20,14 +20,41 @@ namespace StackUnderflow.Persistence.Repositories
 
         #region IVoteRepository Members
 
-        public void AddVote(User user, Question question, VoteType voteType)
+        public void CreateOrUpdateVote(User user, Question question, VoteType voteType)
+        {
+            CreateOrUpdateVote(user.Id, question.Id, voteType);
+        }
+
+        public void CreateOrUpdateVote(int userId, int questionId, VoteType voteType)
         {
             var vote = new VoteOnQuestion
-                           {
-                               Key = new VoteKey {UserId = user.Id, QuestionId = question.Id},
-                               Vote = voteType
-                           };
-            ActiveRecordMediator<VoteOnQuestion>.Create(vote);
+            {
+                Key = new VoteKey { UserId = userId, QuestionId = questionId },
+                Vote = voteType
+            };
+
+            // http://stackoverflow.com/questions/2077107/insert-or-update-in-castle-activerecord
+            try
+            {
+                ActiveRecordMediator<VoteOnQuestion>.Create(vote);
+            }
+            catch (Exception e)
+            {
+                ActiveRecordMediator<VoteOnQuestion>.Update(vote);
+            }
+        }
+
+        public void RemoveVote(int voter, int question)
+        {
+            var voteOnQuestion = new VoteOnQuestion {Key = new VoteKey(voter, question)};
+            try
+            {
+                ActiveRecordMediator<VoteOnQuestion>.Delete(voteOnQuestion);
+            }
+            catch (Exception)
+            {
+                // 
+            }
         }
 
         public VoteCount GetVoteCount(int questionId)
@@ -101,7 +128,18 @@ namespace StackUnderflow.Persistence.Repositories
 
         public VoteOnQuestion GetVote(User user, Question question)
         {
-            return ActiveRecordBase<VoteOnQuestion>.Find(new VoteKey(user.Id, question.Id));
+            return GetVote(user.Id, question.Id);
+        }
+
+        /// <summary>
+        /// Returns null if no vote exists
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="questionId"></param>
+        /// <returns></returns>
+        public VoteOnQuestion GetVote(int userId, int questionId)
+        {
+            return ActiveRecordBase<VoteOnQuestion>.TryFind(new VoteKey(userId, questionId));
         }
 
         #endregion

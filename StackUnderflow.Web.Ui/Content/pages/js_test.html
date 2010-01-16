@@ -1,0 +1,63 @@
+﻿<html>
+  <head>
+    <title>jQuery test page</title>
+    <script type="text/javascript" src="/Content/scripts/lib/jquery.js"/>
+    <script type="text/javascript" src="/Content/scripts/votes.js"/>
+    
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("a").click(function (event) {
+                alert("Thanks for visiting!");
+                event.preventDefault();
+            });
+
+            $("img.vote-up").click(function () {
+                try {
+                    alert("Voting");
+                    alert($(this).parent().find("input").val());
+                    //alert($(this).parent().find("input").html());
+                    //                $.post("/Vote/VoteUp/", null, function (xml) {
+                    //                    alert("Got response");
+                    //                    // format and output result
+                    //                    $("#rating").html(
+                    //                        "Thanks for rating, current average: " +
+                    //                         $("average", xml).text() +
+                    //                         ", number of votes: " +
+                    //                         $("count", xml).text()
+                    //                    );
+                    //                });
+                }
+                catch (err) {
+                    alert("ERROR: " + err);
+                }
+            });
+        });
+    </script>
+    
+    
+    
+  </head>
+  <body>
+    <a href="http://jquery.com/">jQuery</a>
+    <img src="http://sstatic.net/so/img/logo.png" alt="Cool" onclick="voteUp(123)" />
+    
+    <div>
+    <input type="hidden" name="questionId" value="123" />
+    <img class="vote-up" title="This problem is interesting and well formed" alt="Upvote" src="/Content/plus.png" width="21" height="19" />
+    <span>123</span>
+    <img class="vote-down" title="This problem is not interesting or confusing" alt="Downvote" src="/Content/minus.png" width="21" height="19" />
+    </div>
+    
+    <div>
+    <input type="hidden" name="questionId" value="444" />
+    <img class="vote-up" title="This problem is interesting and well formed" alt="Upvote" src="/Content/plus.png" width="21" height="19" />
+    <span>444</span>
+    <img class="vote-down" title="This problem is not interesting or confusing" alt="Downvote" src="/Content/minus.png" width="21" height="19" />
+    </div>
+    
+    <form method="post" action="/Vote/VoteUp/">
+        <input name="questionId" value="321"/>
+        <input type="submit" value="Submit" />
+    </form>
+  </body>
+</html>

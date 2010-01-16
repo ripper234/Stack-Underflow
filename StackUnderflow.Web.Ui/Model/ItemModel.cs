@@ -2,9 +2,9 @@
 
 namespace StackUnderflow.Web.Ui.Model
 {
-    public class Model<T> : ModelBase
+    public class ItemModel<T> : ModelBase
     {
-        public Model(User loggedInUser, T item) : base(loggedInUser)
+        public ItemModel(User loggedInUser, T item) : base(loggedInUser)
         {
             Item = item;
         }

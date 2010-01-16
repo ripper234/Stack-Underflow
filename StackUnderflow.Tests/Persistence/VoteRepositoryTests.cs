@@ -15,7 +15,7 @@ namespace StackUnderflow.Tests.Persistence
         {
             var user = UserFactory.CreateUser();
             var question = SaveQuestion(user);
-            VoteRepository.AddVote(user, question, VoteType.ThumbUp);
+            VoteRepository.CreateOrUpdateVote(user, question, VoteType.ThumbUp);
             var vote = VoteRepository.GetVote(user, question);
             Assert.AreEqual(user.Id, vote.Key.UserId);
             Assert.AreEqual(question.Id, vote.Key.QuestionId);
@@ -35,9 +35,9 @@ namespace StackUnderflow.Tests.Persistence
             var question = SaveQuestion(askingUser);
 
             // vote
-            VoteRepository.AddVote(thumbUpper1, question, VoteType.ThumbUp);
-            VoteRepository.AddVote(thumbUpper2, question, VoteType.ThumbUp);
-            VoteRepository.AddVote(thumbDowner, question, VoteType.ThumbDown);
+            VoteRepository.CreateOrUpdateVote(thumbUpper1, question, VoteType.ThumbUp);
+            VoteRepository.CreateOrUpdateVote(thumbUpper2, question, VoteType.ThumbUp);
+            VoteRepository.CreateOrUpdateVote(thumbDowner, question, VoteType.ThumbDown);
 
             // count votes
             var voteCount = VoteRepository.GetVoteCount(question.Id);
@@ -66,17 +66,57 @@ namespace StackUnderflow.Tests.Persistence
             var question1 = SaveQuestion(author);
             var question2 = SaveQuestion(author);
 
-            VoteRepository.AddVote(voter1, question1, VoteType.ThumbUp);
-            VoteRepository.AddVote(voter2, question1, VoteType.ThumbUp);
-            VoteRepository.AddVote(voter3, question1, VoteType.ThumbDown);
+            VoteRepository.CreateOrUpdateVote(voter1, question1, VoteType.ThumbUp);
+            VoteRepository.CreateOrUpdateVote(voter2, question1, VoteType.ThumbUp);
+            VoteRepository.CreateOrUpdateVote(voter3, question1, VoteType.ThumbDown);
 
-            VoteRepository.AddVote(voter1, question2, VoteType.ThumbDown);
-            VoteRepository.AddVote(voter2, question2, VoteType.ThumbDown);
+            VoteRepository.CreateOrUpdateVote(voter1, question2, VoteType.ThumbDown);
+            VoteRepository.CreateOrUpdateVote(voter2, question2, VoteType.ThumbDown);
 
             var votes = VoteRepository.GetVoteCount(new[] {question1.Id, question2.Id});
             Assert.AreEqual(2, votes.Count);
             Assert.AreEqual(1, votes[question1.Id]);
             Assert.AreEqual(-2, votes[question2.Id]);
+        }
+        
+        [Test]
+        public void UpdatingAVoteTwice_DoesntUpdate_ThenUpdateToDifferetnVoteWorks()
+        {
+            var author = UserFactory.CreateUser();
+            var voter = UserFactory.CreateUser(); 
+            var question = SaveQuestion(author);
+            VoteRepository.CreateOrUpdateVote(voter, question, VoteType.ThumbUp);
+            Assert.AreEqual(1, TallyVotes(question.Id));
+            VoteRepository.CreateOrUpdateVote(voter, question, VoteType.ThumbUp);
+            Assert.AreEqual(1, TallyVotes(question.Id));
+            VoteRepository.CreateOrUpdateVote(voter, question, VoteType.ThumbDown);
+            Assert.AreEqual(-1, TallyVotes(question.Id));
+        }
+
+        private int TallyVotes(int questionId)
+        {
+            var voteCount = VoteRepository.GetVoteCount(questionId);
+            return voteCount.ThumbUps - voteCount.ThumbDowns;
+        }
+
+        [Test]
+        public void RemoveVote_RemovesCorrectVote()
+        {
+            var author = UserFactory.CreateUser();
+            var voter = UserFactory.CreateUser();
+            var question = SaveQuestion(author);
+            VoteRepository.CreateOrUpdateVote(voter, question, VoteType.ThumbUp);
+            Assert.AreEqual(1, TallyVotes(question.Id));
+            VoteRepository.RemoveVote(voter.Id, question.Id);
+            Assert.AreEqual(0, TallyVotes(question.Id));
+        }
+
+        [Test]
+        public void GetOnNonExistingVote_ReturnsNull()
+        {
+            var author = UserFactory.CreateUser();
+            var question = SaveQuestion(author);
+            Assert.IsNull(VoteRepository.GetVote(author, question));
         }
     }
 }

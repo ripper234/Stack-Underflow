@@ -8,6 +8,7 @@ namespace StackUnderflow.Web.Ui.Controllers
 {
     public abstract class UserAwareController : Controller
     {
+        private User _currentUser;
         public IUserRepository Users { get; private set; }
 
         protected UserAwareController(IUserRepository userRepository)
@@ -17,32 +18,38 @@ namespace StackUnderflow.Web.Ui.Controllers
 
         protected ModelBase CreateModel()
         {
-
-            return new EmptyModel(GetUser());
+            return new EmptyModel(CurrentUser);
         }
 
         protected ModelBase CreateModel<T>(T item)
         {
-            return new ItemModel<T>(GetUser(), item);
+            return new ItemModel<T>(CurrentUser, item);
         }
 
         protected ModelBase CreateModel<T>(T[] items)
         {
-            return new ItemsModel<T>(GetUser(), items);
+            return new ItemsModel<T>(CurrentUser, items);
         }
 
         protected ModelBase CreateModel<T>(IEnumerable<T> items)
         {
-            return new ItemsModel<T>(GetUser(), items);
+            return new ItemsModel<T>(CurrentUser, items);
         }
 
-        protected User GetUser()
+        protected User CurrentUser
         {
-            var id = User.Identity.Name;
-            if (string.IsNullOrEmpty(id))
-                return null;
+            get
+            {
+                if (_currentUser != null)
+                    return _currentUser;
 
-            return Users.GetById(int.Parse(id));
+                var id = User.Identity.Name;
+                if (string.IsNullOrEmpty(id))
+                    return null;
+
+                _currentUser = Users.GetById(int.Parse(id));
+                return _currentUser;
+            }
         }
 
         protected ActionResult UserView<T>(IEnumerable<T> items)

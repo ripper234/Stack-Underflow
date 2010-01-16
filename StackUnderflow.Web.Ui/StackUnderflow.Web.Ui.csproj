@@ -94,6 +94,7 @@
     <Compile Include="Controllers\QuestionController.cs" />
     <Compile Include="Controllers\UserAwareController.cs" />
     <Compile Include="Controllers\UserController.cs" />
+    <Compile Include="Controllers\VoteController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -102,6 +103,7 @@
     <Compile Include="Model\ItemsModel.cs" />
     <Compile Include="Model\ModelBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utils\ImageHelper.cs" />
     <Compile Include="Utils\TimeUtils.cs" />
     <Compile Include="Utils\VoteUtil.cs" />
     <Compile Include="Utils\WindsorControllerFactory.cs" />
@@ -111,6 +113,14 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\favicon.ico" />
+    <Content Include="Content\images\minus.png" />
+    <Content Include="Content\images\minus_on.png" />
+    <Content Include="Content\images\plus.png" />
+    <Content Include="Content\images\plus_on.png" />
+    <Content Include="Content\pages\js_test.html" />
+    <Content Include="Content\scripts\lib\jquery.js" />
+    <Content Include="Content\scripts\master.js" />
+    <Content Include="Content\scripts\votes.js" />
     <Content Include="Global.asax" />
     <Content Include="Views\Authentication\Authenticate.aspx" />
     <Content Include="Views\Authentication\Login.aspx" />
