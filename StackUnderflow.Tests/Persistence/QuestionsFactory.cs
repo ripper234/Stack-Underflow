@@ -1,7 +1,8 @@
-﻿#region
+#region
 
 using System;
 using StackUnderflow.Model.Entities;
+using StackUnderflow.Model.Entities.DB;
 
 #endregion
 
@@ -14,7 +15,7 @@ namespace StackUnderflow.Tests.Persistence
             var creationDate = DateTime.Now;
             return new Question {Author = user, Title = "Is there a god?", Body = "Well, is there?",
                 UpdateDate = creationDate,
-                                 AskedOn = creationDate
+                                 CreatedDate = creationDate
             };
         }
     }

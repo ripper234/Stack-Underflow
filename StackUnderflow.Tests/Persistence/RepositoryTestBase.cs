@@ -1,6 +1,7 @@
-﻿#region
+#region
 
 using StackUnderflow.Model.Entities;
+using StackUnderflow.Model.Entities.DB;
 using StackUnderflow.Persistence.Repositories;
 
 #endregion

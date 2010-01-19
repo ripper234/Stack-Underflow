@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Web.Mvc;
 using StackUnderflow.Model.Entities;
+using StackUnderflow.Model.Entities.DB;
 using StackUnderflow.Persistence.Repositories;
 using StackUnderflow.Persistence.RichRepositories;
 
@@ -70,7 +71,7 @@ namespace StackUnderflow.Web.Ui.Controllers
             var now = DateTime.Now;
             var question = new Question
                 {
-                    AskedOn = now,
+                    CreatedDate = now,
                     Author = CurrentUser,
                     Body = body,
                     LastRelatedUser = CurrentUser,

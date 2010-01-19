@@ -1,8 +1,9 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using NHibernate;
 using StackUnderflow.Common;
 using StackUnderflow.Model.Entities;
+using StackUnderflow.Model.Entities.DB;
 using StackUnderflow.Persistence.Repositories;
 
 namespace StackUnderflow.Util
@@ -74,7 +75,7 @@ namespace StackUnderflow.Util
                                    Title = "Random question about " + RandomWord() + "?",
                                    Body = body + "?",
                                    UpdateDate = creationDate,
-                                   AskedOn = creationDate,
+                                   CreatedDate = creationDate,
                                };
             _questions.Add(question);
             _questionsRepository.Save(question);

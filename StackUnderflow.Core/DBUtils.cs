@@ -13,6 +13,7 @@ namespace StackUnderflow
             using (var session = sessionFactory.OpenSession())
             using (var tx = session.BeginTransaction())
             {
+                session.CreateSQLQuery("truncate table Answers").ExecuteUpdate();
                 session.CreateSQLQuery("truncate table VotesOnQuestions").ExecuteUpdate();
                 session.CreateSQLQuery("truncate table Questions").ExecuteUpdate();
                 session.CreateSQLQuery("truncate table Users").ExecuteUpdate();

@@ -1,6 +1,7 @@
 ﻿#region
 
 using StackUnderflow.Model.Entities;
+using StackUnderflow.Model.Entities.DB;
 
 #endregion
 

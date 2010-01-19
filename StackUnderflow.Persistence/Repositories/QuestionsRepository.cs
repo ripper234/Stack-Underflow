@@ -1,10 +1,11 @@
-﻿#region
+#region
 
 using System;
 using Castle.ActiveRecord;
 using NHibernate;
 using NHibernate.Criterion;
 using StackUnderflow.Model.Entities;
+using StackUnderflow.Model.Entities.DB;
 
 #endregion
 
@@ -26,7 +27,7 @@ namespace StackUnderflow.Persistence.Repositories
         public override void Save(Question question)
         {
             if (question.UpdateDate == default(DateTime) ||
-                question.AskedOn == default(DateTime))
+                question.CreatedDate == default(DateTime))
                 throw new Exception("Date not valid for question " + question);
 
             question.LastRelatedUser = question.Author;

@@ -31,7 +31,7 @@
                 </div>
                 <div class="post-signature author">
                     <div class="reltime">asked <span class="reltime-expanded">
-                        <%= TimeUtils.ToRelativeTimeDeatiled(Model.Item.Question.AskedOn) + " ago"%></span>
+                        <%= TimeUtils.ToRelativeTimeDeatiled(Model.Item.Question.CreatedDate) + " ago"%></span>
                     </div>
                 <% Html.RenderPartial("SmallUserDetails", Model.Item.Question.Author); %>
                 </div>
@@ -39,5 +39,16 @@
         </tr>
         </table>
     </div>
-
+    <div class="answers"></div>
+    <div class="add-answers">
+        <h3>Answer it:</h3>
+        <% using (Html.BeginForm("Submit", "Answer", new {questionId = Model.Item.Question.Id  }, FormMethod.Post)) { %>
+            
+            <div class="answer-body">
+                <textarea name="body" rows="15" cols="100"></textarea>
+            </div>
+            <input type="submit" value="Submit your answer" />
+        
+        <% } %>
+    </div>
 </asp:Content>

@@ -1,4 +1,6 @@
-﻿namespace StackUnderflow.Model.Entities.Rich
+using StackUnderflow.Model.Entities.DB;
+
+namespace StackUnderflow.Model.Entities.Rich
 {
     public class RichQuestion
     {

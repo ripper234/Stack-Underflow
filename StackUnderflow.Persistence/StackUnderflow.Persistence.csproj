@@ -58,6 +58,8 @@
   <ItemGroup>
     <Compile Include="ActiveRecordLinqContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\AnswersRepository.cs" />
+    <Compile Include="Repositories\IAnswersRepository.cs" />
     <Compile Include="Repositories\IQuestionsRepository.cs" />
     <Compile Include="Repositories\IRepository.cs" />
     <Compile Include="Repositories\IUserRepository.cs" />

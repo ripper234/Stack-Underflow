@@ -1,9 +1,10 @@
-﻿#region
+#region
 
 using System;
 using System.Linq;
 using NUnit.Framework;
 using StackUnderflow.Model.Entities;
+using StackUnderflow.Model.Entities.DB;
 using StackUnderflow.Persistence.Repositories;
 
 #endregion

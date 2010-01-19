@@ -1,8 +1,9 @@
-﻿#region
+#region
 
 using System;
 using System.Collections.Generic;
 using Castle.ActiveRecord;
+using StackUnderflow.Model.Entities.DB;
 
 #endregion
 
