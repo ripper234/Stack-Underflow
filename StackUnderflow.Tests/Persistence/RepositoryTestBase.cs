@@ -12,16 +12,18 @@ namespace StackUnderflow.Tests.Persistence
     {
         public IUserRepository UserRepository { get; private set; }
         public IQuestionsRepository QuestionsRepository { get; private set; }
-        public IVoteRepository VoteRepository { get; private set; }
+        public IQuestionVoteRepository QuestionVoteRepository { get; private set; }
         public IUserFactory UserFactory { get; private set; }
+        public IAnswerVoteRepository AnswerVoteRepository { get; private set; }
 
         public override void FixtureSetupCore()
         {
             base.FixtureSetupCore();
             UserRepository = Resolve<IUserRepository>();
             QuestionsRepository = Resolve<IQuestionsRepository>();
-            VoteRepository = Resolve<IVoteRepository>();
+            QuestionVoteRepository = Resolve<IQuestionVoteRepository>();
             UserFactory = Resolve<IUserFactory>();
+            AnswerVoteRepository = Resolve<IAnswerVoteRepository>();
         }
 
         protected Question SaveQuestion(User user)

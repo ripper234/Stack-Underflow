@@ -1,4 +1,4 @@
-﻿#region
+#region
 
 using NUnit.Framework;
 using StackUnderflow.Model.Entities;
@@ -15,10 +15,10 @@ namespace StackUnderflow.Tests.Persistence
         {
             var user = UserFactory.CreateUser();
             var question = SaveQuestion(user);
-            VoteRepository.CreateOrUpdateVote(user, question, VoteType.ThumbUp);
-            var vote = VoteRepository.GetVote(user, question);
+            QuestionVoteRepository.CreateOrUpdateVote(user, question, VoteType.ThumbUp);
+            var vote = QuestionVoteRepository.GetVote(user, question);
             Assert.AreEqual(user.Id, vote.Key.UserId);
-            Assert.AreEqual(question.Id, vote.Key.QuestionId);
+            Assert.AreEqual(question.Id, vote.Key.PostId);
             Assert.AreEqual(VoteType.ThumbUp, vote.Vote);
         }
 
@@ -35,12 +35,12 @@ namespace StackUnderflow.Tests.Persistence
             var question = SaveQuestion(askingUser);
 
             // vote
-            VoteRepository.CreateOrUpdateVote(thumbUpper1, question, VoteType.ThumbUp);
-            VoteRepository.CreateOrUpdateVote(thumbUpper2, question, VoteType.ThumbUp);
-            VoteRepository.CreateOrUpdateVote(thumbDowner, question, VoteType.ThumbDown);
+            QuestionVoteRepository.CreateOrUpdateVote(thumbUpper1, question, VoteType.ThumbUp);
+            QuestionVoteRepository.CreateOrUpdateVote(thumbUpper2, question, VoteType.ThumbUp);
+            QuestionVoteRepository.CreateOrUpdateVote(thumbDowner, question, VoteType.ThumbDown);
 
             // count votes
-            var voteCount = VoteRepository.GetVoteCount(question.Id);
+            var voteCount = QuestionVoteRepository.GetVoteCount(question.Id);
             Assert.AreEqual(2, voteCount.ThumbUps);
             Assert.AreEqual(1, voteCount.ThumbDowns);
         }
@@ -51,7 +51,7 @@ namespace StackUnderflow.Tests.Persistence
             var user = UserFactory.CreateUser();
             var question = SaveQuestion(user);
 
-            var voteCount = VoteRepository.GetVoteCount(question.Id);
+            var voteCount = QuestionVoteRepository.GetVoteCount(question.Id);
             Assert.AreEqual(0, voteCount.ThumbUps);
             Assert.AreEqual(0, voteCount.ThumbDowns);
         }
@@ -66,14 +66,14 @@ namespace StackUnderflow.Tests.Persistence
             var question1 = SaveQuestion(author);
             var question2 = SaveQuestion(author);
 
-            VoteRepository.CreateOrUpdateVote(voter1, question1, VoteType.ThumbUp);
-            VoteRepository.CreateOrUpdateVote(voter2, question1, VoteType.ThumbUp);
-            VoteRepository.CreateOrUpdateVote(voter3, question1, VoteType.ThumbDown);
+            QuestionVoteRepository.CreateOrUpdateVote(voter1, question1, VoteType.ThumbUp);
+            QuestionVoteRepository.CreateOrUpdateVote(voter2, question1, VoteType.ThumbUp);
+            QuestionVoteRepository.CreateOrUpdateVote(voter3, question1, VoteType.ThumbDown);
 
-            VoteRepository.CreateOrUpdateVote(voter1, question2, VoteType.ThumbDown);
-            VoteRepository.CreateOrUpdateVote(voter2, question2, VoteType.ThumbDown);
+            QuestionVoteRepository.CreateOrUpdateVote(voter1, question2, VoteType.ThumbDown);
+            QuestionVoteRepository.CreateOrUpdateVote(voter2, question2, VoteType.ThumbDown);
 
-            var votes = VoteRepository.GetVoteCount(new[] {question1.Id, question2.Id});
+            var votes = QuestionVoteRepository.GetVoteCount(new[] {question1.Id, question2.Id});
             Assert.AreEqual(2, votes.Count);
             Assert.AreEqual(1, votes[question1.Id]);
             Assert.AreEqual(-2, votes[question2.Id]);
@@ -85,17 +85,17 @@ namespace StackUnderflow.Tests.Persistence
             var author = UserFactory.CreateUser();
             var voter = UserFactory.CreateUser(); 
             var question = SaveQuestion(author);
-            VoteRepository.CreateOrUpdateVote(voter, question, VoteType.ThumbUp);
+            QuestionVoteRepository.CreateOrUpdateVote(voter, question, VoteType.ThumbUp);
             Assert.AreEqual(1, TallyVotes(question.Id));
-            VoteRepository.CreateOrUpdateVote(voter, question, VoteType.ThumbUp);
+            QuestionVoteRepository.CreateOrUpdateVote(voter, question, VoteType.ThumbUp);
             Assert.AreEqual(1, TallyVotes(question.Id));
-            VoteRepository.CreateOrUpdateVote(voter, question, VoteType.ThumbDown);
+            QuestionVoteRepository.CreateOrUpdateVote(voter, question, VoteType.ThumbDown);
             Assert.AreEqual(-1, TallyVotes(question.Id));
         }
 
         private int TallyVotes(int questionId)
         {
-            var voteCount = VoteRepository.GetVoteCount(questionId);
+            var voteCount = QuestionVoteRepository.GetVoteCount(questionId);
             return voteCount.ThumbUps - voteCount.ThumbDowns;
         }
 
@@ -105,9 +105,9 @@ namespace StackUnderflow.Tests.Persistence
             var author = UserFactory.CreateUser();
             var voter = UserFactory.CreateUser();
             var question = SaveQuestion(author);
-            VoteRepository.CreateOrUpdateVote(voter, question, VoteType.ThumbUp);
+            QuestionVoteRepository.CreateOrUpdateVote(voter, question, VoteType.ThumbUp);
             Assert.AreEqual(1, TallyVotes(question.Id));
-            VoteRepository.RemoveVote(voter.Id, question.Id);
+            QuestionVoteRepository.RemoveVote(voter.Id, question.Id);
             Assert.AreEqual(0, TallyVotes(question.Id));
         }
 
@@ -116,7 +116,7 @@ namespace StackUnderflow.Tests.Persistence
         {
             var author = UserFactory.CreateUser();
             var question = SaveQuestion(author);
-            Assert.IsNull(VoteRepository.GetVote(author, question));
+            Assert.IsNull(QuestionVoteRepository.GetVote(author, question));
         }
     }
 }

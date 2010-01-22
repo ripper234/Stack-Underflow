@@ -33,11 +33,12 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="IntegrationTestBase.cs" />
+    <Compile Include="Persistence\AnswersRepositoryTests.cs" />
     <Compile Include="Persistence\QuestionsFactory.cs" />
     <Compile Include="Persistence\QuestionsRepositoryTests.cs" />
     <Compile Include="Persistence\RepositoryTestBase.cs" />
     <Compile Include="Persistence\UserFactory.cs" />
-    <Compile Include="Persistence\VoteRepositoryTests.cs" />
+    <Compile Include="Persistence\QuestionVoteRepositoryTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Persistence\UserRepositoryTests.cs" />
   </ItemGroup>

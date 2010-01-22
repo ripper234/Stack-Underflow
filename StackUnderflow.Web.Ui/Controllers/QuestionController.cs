@@ -25,7 +25,7 @@ namespace StackUnderflow.Web.Ui.Controllers
 
         public ActionResult Details(int id)
         {
-            return SingleUserView(_richQuestionRepository.GetById(CurrentUser, id));
+            return SingleUserView(_richQuestionRepository.GetById(CurrentUser, id, 0, 10));
         }
 
 

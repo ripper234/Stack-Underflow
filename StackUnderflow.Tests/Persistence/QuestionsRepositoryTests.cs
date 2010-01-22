@@ -11,18 +11,16 @@ using StackUnderflow.Persistence.Repositories;
 
 namespace StackUnderflow.Tests.Persistence
 {
-    public class QuestionsRepositoryTests : IntegrationTestBase
+    public class QuestionsRepositoryTests : RepositoryTestBase
     {
         private IQuestionsRepository _questionsRepository;
         private IUserRepository _userRepository;
-        private IUserFactory _userFactory;
 
         public override void FixtureSetupCore()
         {
             base.FixtureSetupCore();
             _questionsRepository = Resolve<IQuestionsRepository>();
             _userRepository = Resolve<IUserRepository>();
-            _userFactory = Resolve<IUserFactory>();
         }
 
         [Test]
@@ -84,7 +82,7 @@ namespace StackUnderflow.Tests.Persistence
 
         private User CreateUser()
         {
-            return _userFactory.CreateUser();
+            return UserFactory.CreateUser();
         }
 
         [ExpectedException]

@@ -16,7 +16,7 @@ namespace StackUnderflow.Model.Entities
     public class User
     {
         [PrimaryKey]
-        public virtual int Id { get; private set; }
+        public virtual int Id { get; set; }
 
         [Property]
         public virtual string Name { get; set; }

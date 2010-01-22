@@ -6,11 +6,11 @@ namespace StackUnderflow.Web.Ui.Controllers
 {
     public class VoteController : UserAwareController
     {
-        private readonly IVoteRepository _voteRepository;
+        private readonly IQuestionVoteRepository _questionVoteRepository;
 
-        public VoteController(IUserRepository userRepository, IVoteRepository voteRepository) : base(userRepository)
+        public VoteController(IUserRepository userRepository, IQuestionVoteRepository questionVoteRepository) : base(userRepository)
         {
-            _voteRepository = voteRepository;
+            _questionVoteRepository = questionVoteRepository;
         }
 
         [AcceptVerbs(HttpVerbs.Post)]
@@ -23,9 +23,9 @@ namespace StackUnderflow.Web.Ui.Controllers
             }
 
             if (!wasOn)
-                _voteRepository.CreateOrUpdateVote(CurrentUser.Id, questionId, voteType);
+                _questionVoteRepository.CreateOrUpdateVote(CurrentUser.Id, questionId, voteType);
             else
-                _voteRepository.RemoveVote(CurrentUser.Id, questionId);
+                _questionVoteRepository.RemoveVote(CurrentUser.Id, questionId);
 
             return ReturnVal(VoteResult.OK);
         }

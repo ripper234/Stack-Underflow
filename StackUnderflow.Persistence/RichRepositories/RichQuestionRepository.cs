@@ -11,33 +11,36 @@ namespace StackUnderflow.Persistence.RichRepositories
     public class RichQuestionRepository : IRichQuestionRepository
     {
         private readonly IQuestionsRepository _questionsRepository;
-        private readonly IVoteRepository _voteRepository;
+        private readonly IQuestionVoteRepository _questionVoteRepository;
+        private readonly IAnswersRepository _answersRepository;
 
-        public RichQuestionRepository(IQuestionsRepository questionsRepository, IVoteRepository voteRepository)
+        public RichQuestionRepository(IQuestionsRepository questionsRepository, IQuestionVoteRepository questionVoteRepository, IAnswersRepository answersRepository)
         {
             _questionsRepository = questionsRepository;
-            _voteRepository = voteRepository;
+            _questionVoteRepository = questionVoteRepository;
+            _answersRepository = answersRepository;
         }
 
-        public RichQuestion GetById(User viewingUser, int questionId)
+        public RichQuestion GetById(User viewingUser, int questionId, long answerStart, long answerEnd)
         {
             var question = _questionsRepository.GetById(questionId);
-            var votes = _voteRepository.GetVoteCount(questionId);
+            var votes = _questionVoteRepository.GetVoteCount(questionId);
             VoteType? vote = null;
             if (viewingUser != null)
             {
-                var voteOnQuestion = _voteRepository.GetVote(viewingUser.Id, questionId);
+                var voteOnQuestion = _questionVoteRepository.GetVote(viewingUser.Id, questionId);
                 if (voteOnQuestion != null)
                     vote = voteOnQuestion.Vote;
             }
-            return new RichQuestion(question, votes.Total, vote);
+            var answers = _answersRepository.GetTopAnswers(questionId, answerStart, answerEnd);
+            return new RichQuestion(question, votes.Total, vote, answers);
         }
 
         public List<RichQuestion> GetNewestQuestions(int numberOfQuestions)
         {
             var questions = _questionsRepository.GetNewestQuestions(numberOfQuestions);
-            var votes = _voteRepository.GetVoteCount(questions.Select(q => q.Id));
-            return questions.Select(q => new RichQuestion(q, votes.GetOrDefault(q.Id), null)).ToList();
+            var votes = _questionVoteRepository.GetVoteCount(questions.Select(q => q.Id));
+            return questions.Select(q => new RichQuestion(q, votes.GetOrDefault(q.Id), null, null)).ToList();
         }
     }
 }

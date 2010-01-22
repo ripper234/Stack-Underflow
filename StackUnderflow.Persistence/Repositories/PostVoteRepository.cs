@@ -1,5 +1,3 @@
-#region
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,48 +7,46 @@ using StackUnderflow.Common;
 using StackUnderflow.Model.Entities;
 using StackUnderflow.Model.Entities.DB;
 
-#endregion
-
 namespace StackUnderflow.Persistence.Repositories
 {
-    public class VoteRepository : RepositoryBase<VoteOnQuestion>, IVoteRepository
+    public abstract class PostVoteRepository<TVoteOnPost, TPost> : RepositoryBase<TVoteOnPost> 
+        where TVoteOnPost : VoteOnPost, new()
+        where TPost : Post
     {
-        public VoteRepository(ISessionFactory sessionFactory) : base(sessionFactory)
+        protected PostVoteRepository(ISessionFactory sessionFactory) : base(sessionFactory)
         {
         }
 
-        #region IVoteRepository Members
-
-        public void CreateOrUpdateVote(User user, Question question, VoteType voteType)
+        public void CreateOrUpdateVote(User user, TPost post, VoteType voteType)
         {
-            CreateOrUpdateVote(user.Id, question.Id, voteType);
+            CreateOrUpdateVote(user.Id, post.Id, voteType);
         }
 
-        public void CreateOrUpdateVote(int userId, int questionId, VoteType voteType)
+        public void CreateOrUpdateVote(int userId, int postId, VoteType voteType)
         {
-            var vote = new VoteOnQuestion
-            {
-                Key = new VoteKey { UserId = userId, QuestionId = questionId },
-                Vote = voteType
-            };
+            var vote = new TVoteOnPost
+                           {
+                               Key = new VoteKey { UserId = userId, PostId = postId },
+                               Vote = voteType
+                           };
 
             try
             {
-                ActiveRecordMediator<VoteOnQuestion>.Create(vote);
+                ActiveRecordMediator<TVoteOnPost>.Create(vote);
             }
             catch (Exception)
             {
-                ActiveRecordMediator<VoteOnQuestion>.Update(vote);
+                ActiveRecordMediator<TVoteOnPost>.Update(vote);
             }
             //ActiveRecordMediator<VoteOnQuestion>.Save(vote);
         }
 
-        public void RemoveVote(int voter, int question)
+        public void RemoveVote(int voterId, int postId)
         {
-            var voteOnQuestion = new VoteOnQuestion {Key = new VoteKey(voter, question)};
+            var voteOnQuestion = new TVoteOnPost {Key = new VoteKey(voterId, postId)};
             try
             {
-                ActiveRecordMediator<VoteOnQuestion>.Delete(voteOnQuestion);
+                ActiveRecordMediator<TVoteOnPost>.Delete(voteOnQuestion);
             }
             catch (Exception)
             {
@@ -59,7 +55,7 @@ namespace StackUnderflow.Persistence.Repositories
             }
         }
 
-        public VoteCount GetVoteCount(int questionId)
+        public VoteCount GetVoteCount(int postId)
         {
             try
             {
@@ -67,8 +63,8 @@ namespace StackUnderflow.Persistence.Repositories
                 {
                     var query =
                         session.CreateQuery(
-                            "SELECT Vote, COUNT(*) FROM VoteOnQuestion WHERE QuestionId = :questionId GROUP BY vote");
-                    query.SetInt32("questionId", questionId);
+                            "SELECT Vote, COUNT(*) FROM " + TableName + " WHERE PostId = :postId GROUP BY vote");
+                    query.SetInt32("postId", postId);
                     var result = query.List().Cast<object[]>().ToDictionary(
                         x => (VoteType) x[0],
                         x => (long) x[1]);
@@ -78,38 +74,38 @@ namespace StackUnderflow.Persistence.Repositories
             }
             catch (Exception e)
             {
-                throw new Exception("Failed to get vote count for question " + questionId, e);
+                throw new Exception("Failed to get vote count for question " + postId, e);
             }
         }
 
-        public Dictionary<int, int> GetVoteCount(IEnumerable<int> questionIds)
+        public Dictionary<int, int> GetVoteCount(IEnumerable<int> postIdses)
         {
             try
             {
-                var questionIdsStr = "";
+                var postIdsStr = "";
                 bool first = true;
-                foreach (var id in questionIds)
+                foreach (var id in postIdses)
                 {
                     if (first)
                     {
                         first = false;
-                        questionIdsStr += id;
+                        postIdsStr += id;
                     }
                     else
-                        questionIdsStr += ", " + id;
+                        postIdsStr += ", " + id;
                 }
-                var sql = string.Format("SELECT Key.QuestionId, Vote, COUNT(*) FROM VoteOnQuestion WHERE QuestionId IN ({0}) GROUP BY questionid, vote", questionIdsStr);
+                var sql = string.Format("SELECT Key.PostId, Vote, COUNT(*) FROM " + TableName + " WHERE PostId IN ({0}) GROUP BY PostId, vote", postIdsStr);
                 using (var session = SessionFactory.OpenSession())
                 {
                     var query = session.CreateQuery(sql);
                     var result = query.List().Cast<object[]>().GroupBy(x => x[0]);
                     return result.ToDictionary(x => (int)x.Key, 
-                                                  x => x.Sum(y => (int)(((long)y[2]) * GetWeight((VoteType)y[1]))));
+                                                   x => x.Sum(y => (int)(((long)y[2]) * GetWeight((VoteType)y[1]))));
                 }
             }
             catch (Exception e)
             {
-                throw new Exception("Failed to get vote counts for questions " + questionIds, e);
+                throw new Exception("Failed to get vote counts for questions " + postIdses, e);
             }
         }
 
@@ -128,7 +124,7 @@ namespace StackUnderflow.Persistence.Repositories
             }
         }
 
-        public VoteOnQuestion GetVote(User user, Question question)
+        public TVoteOnPost GetVote(User user, TPost question)
         {
             return GetVote(user.Id, question.Id);
         }
@@ -137,13 +133,16 @@ namespace StackUnderflow.Persistence.Repositories
         /// Returns null if no vote exists
         /// </summary>
         /// <param name="userId"></param>
-        /// <param name="questionId"></param>
+        /// <param name="postId"></param>
         /// <returns></returns>
-        public VoteOnQuestion GetVote(int userId, int questionId)
+        public TVoteOnPost GetVote(int userId, int postId)
         {
-            return ActiveRecordBase<VoteOnQuestion>.TryFind(new VoteKey(userId, questionId));
+            return ActiveRecordBase<TVoteOnPost>.TryFind(new VoteKey(userId, postId));
         }
 
-        #endregion
+        private static string TableName
+        {
+            get { return typeof(TVoteOnPost).Name; }
+        }
     }
 }

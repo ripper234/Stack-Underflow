@@ -17,14 +17,14 @@ namespace StackUnderflow.Model.Entities
         public VoteKey(int userId, int questionId)
         {
             UserId = userId;
-            QuestionId = questionId;
+            PostId = questionId;
         }
 
         [KeyProperty]
         public int UserId { get; set; }
 
         [KeyProperty]
-        public int QuestionId { get; set; }
+        public int PostId { get; set; }
 
         #region IEquatable<VoteKey> Members
 
@@ -32,7 +32,7 @@ namespace StackUnderflow.Model.Entities
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
-            return other.UserId == UserId && other.QuestionId == QuestionId;
+            return other.UserId == UserId && other.PostId == PostId;
         }
 
         #endregion
@@ -49,7 +49,7 @@ namespace StackUnderflow.Model.Entities
         {
             unchecked
             {
-                return (UserId*397) ^ QuestionId;
+                return (UserId*397) ^ PostId;
             }
         }
 
@@ -65,7 +65,7 @@ namespace StackUnderflow.Model.Entities
 
         public override string ToString()
         {
-            return string.Format("UserId: {0}, QuestionId: {1}", UserId, QuestionId);
+            return string.Format("UserId: {0}, QuestionId: {1}", UserId, PostId);
         }
     }
 }

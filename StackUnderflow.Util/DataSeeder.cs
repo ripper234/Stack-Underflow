@@ -13,17 +13,21 @@ namespace StackUnderflow.Util
         private readonly ISessionFactory _sessionFactory;
         private readonly IUserRepository _userRepository;
         private readonly IQuestionsRepository _questionsRepository;
-        private readonly IVoteRepository _voteRepository;
+        private readonly IQuestionVoteRepository _questionVoteRepository;
         private readonly List<User> _users = new List<User>();
+        private readonly IAnswersRepository _answersRepository;
         private readonly Random _random = new Random();
-
+        private readonly List<Question> _questions = new List<Question>();
+        private readonly string[] _words = new[] { "Dog", "Cat", "Question", "Computer", "Math", "Problem", "Science" };
+        
         public DataSeeder(IUserRepository userRepository, IQuestionsRepository questionsRepository, ISessionFactory sessionFactory,
-            IVoteRepository voteRepository)
+            IQuestionVoteRepository questionVoteRepository, IAnswersRepository answersRepository)
         {
             _userRepository = userRepository;
             _questionsRepository = questionsRepository;
-            _voteRepository = voteRepository;
+            _questionVoteRepository = questionVoteRepository;
             _sessionFactory = sessionFactory;
+            _answersRepository = answersRepository;
         }
 
         public void Run()
@@ -42,33 +46,49 @@ namespace StackUnderflow.Util
             // some votes
             AddVotes();
 
+            AddAnswers();
+
             var questions = _questionsRepository.GetNewestQuestions(10);
             Console.WriteLine(string.Format("Got {0} questions", questions.Length));
         }
 
+        private void AddAnswers()
+        {
+            for (int i = 0; i < 10; ++i)
+            {
+                int questionId = _random.Next(_questions.Count) + 1;
+                int authorId = _random.Next(_users.Count) + 1;
+                var author = new User { Id = authorId };
+                var date = GetRandomDate();
+                var answer = new Answer
+                                 {
+                                     Author = author,
+                                     Body = RandomText(20),
+                                     CreatedDate = date,
+                                     LastRelatedUser = author,
+                                     QuestionId = questionId,
+                                     UpdateDate = date,
+                                 };
+                _answersRepository.Save(answer);
+            }
+        }
+
         private void AddVotes()
         {
-            _voteRepository.CreateOrUpdateVote(_users[0], _questions[0], VoteType.ThumbUp);
-            _voteRepository.CreateOrUpdateVote(_users[1], _questions[0], VoteType.ThumbUp);
-            _voteRepository.CreateOrUpdateVote(_users[0], _questions[1], VoteType.ThumbUp);
-            _voteRepository.CreateOrUpdateVote(_users[1], _questions[1], VoteType.ThumbDown);
-            _voteRepository.CreateOrUpdateVote(_users[2], _questions[1], VoteType.ThumbUp);
-            _voteRepository.CreateOrUpdateVote(_users[2], _questions[2], VoteType.ThumbDown);
+            _questionVoteRepository.CreateOrUpdateVote(_users[0], _questions[0], VoteType.ThumbUp);
+            _questionVoteRepository.CreateOrUpdateVote(_users[1], _questions[0], VoteType.ThumbUp);
+            _questionVoteRepository.CreateOrUpdateVote(_users[0], _questions[1], VoteType.ThumbUp);
+            _questionVoteRepository.CreateOrUpdateVote(_users[1], _questions[1], VoteType.ThumbDown);
+            _questionVoteRepository.CreateOrUpdateVote(_users[2], _questions[1], VoteType.ThumbUp);
+            _questionVoteRepository.CreateOrUpdateVote(_users[2], _questions[2], VoteType.ThumbDown);
         }
 
         private void AddQuestion()
         {
             var author = _users.Random(_random);
             int bodyLength = _random.Next(15) + 5;
-            string body = "";
-            for (int i = 0; i < bodyLength; ++i)
-            {
-                var word = RandomWord();
-                if (i != 0)
-                    word = word.ToLower();
-                body += word + " ";
-            }
-            var creationDate = DateTime.Now.Subtract(TimeSpan.FromSeconds(_random.Next(300)));
+            string body = RandomText(bodyLength);
+            var creationDate = GetRandomDate();
             var question = new Question
                                {
                                    Author = author,
@@ -80,6 +100,24 @@ namespace StackUnderflow.Util
             _questions.Add(question);
             _questionsRepository.Save(question);
 
+        }
+
+        private string RandomText(int bodyLength)
+        {
+            string body = "";
+            for (int i = 0; i < bodyLength; ++i)
+            {
+                var word = RandomWord();
+                if (i != 0)
+                    word = word.ToLower();
+                body += word + " ";
+            }
+            return body;
+        }
+
+        private DateTime GetRandomDate()
+        {
+            return DateTime.Now.Subtract(TimeSpan.FromSeconds(_random.Next(300)));
         }
 
         private void AddUsers(params string []names)
@@ -96,9 +134,6 @@ namespace StackUnderflow.Util
                 _users.Add(user);
             }
         }
-
-        private readonly string[] _words = new[] {"Dog", "Cat", "Question", "Computer", "Math", "Problem", "Science"};
-        private readonly List<Question> _questions = new List<Question>();
 
         private string RandomWord()
         {

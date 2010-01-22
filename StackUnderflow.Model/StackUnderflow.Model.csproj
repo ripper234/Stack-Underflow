@@ -57,6 +57,8 @@
     <Compile Include="Entities\DB\Question.cs" />
     <Compile Include="Entities\DB\User.cs" />
     <Compile Include="Entities\DB\VoteKey.cs" />
+    <Compile Include="Entities\DB\VoteOnAnswer.cs" />
+    <Compile Include="Entities\DB\VoteOnPost.cs" />
     <Compile Include="Entities\DB\VoteOnQuestion.cs" />
     <Compile Include="Entities\DB\VoteType.cs" />
     <Compile Include="Entities\Rich\RichQuestion.cs" />
