@@ -40,6 +40,9 @@ namespace StackUnderflow.Persistence.Repositories
 
         protected static void BuildInClause(StringBuilder builder, IEnumerable<int> ids)
         {
+            if (ids.Count() == 0)
+                throw new Exception("Can't build in clause for empty ID list");
+
             builder.Append("IN (");
             bool first = true;
             foreach (var id in ids)

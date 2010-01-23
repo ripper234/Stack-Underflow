@@ -40,7 +40,36 @@
         </tr>
         </table>
     </div>
-    <div class="answers"></div>
+    <div class="answers">
+        <h2><%= Html.Encode(Model.Item.AnswerCount) %> answers</h2>
+        <% foreach (var answer in Model.Item.Answers) { %>
+        <div class="answer">
+            <table>
+            <tr>
+                <td class="votecol">
+                    <div class="vote">
+                        <input type="hidden" value="<%= Html.Encode(answer.Answer.Id) %>" />
+                        <span class="total-votes"><%= Html.Encode(VoteUtil.VotesToString(answer.Answer.Votes))%></span>
+                        <img class="vote-up" title="This answer is helpful and well formed" alt="Upvote" src="<%= ImageHelper.ImageForVote(VoteType.ThumbUp, answer.CurrentUserVote) %>" width="21" height="19"/>
+                        <img class="vote-down" title="This answer is confusing or not relevant" alt="Downvote" src="<%= ImageHelper.ImageForVote(VoteType.ThumbDown, answer.CurrentUserVote) %>" width="22" height="20" />
+                    </div>
+                </td>
+                <td class="answer-body">
+                    <div class="text">
+                        <p><%= Html.Encode(answer.Answer.Body)%></p>
+                    </div>
+                    <div class="post-signature author">
+                        <div class="reltime">answered <span class="reltime-expanded">
+                            <%= TimeUtils.ToRelativeTimeDeatiled(answer.Answer.CreatedDate) + " ago"%></span>
+                        </div>
+                    <% Html.RenderPartial("SmallUserDetails", answer.Answer.Author); %>
+                    </div>
+                </td>
+            </tr>
+            </table>
+        </div>
+        <% } %>
+    </div>
     <div class="add-answers">
         <h3>Answer it:</h3>
         <% using (Html.BeginForm("Submit", "Answer", new {questionId = Model.Item.Question.Id  }, FormMethod.Post)) { %>

@@ -14,18 +14,20 @@ namespace StackUnderflow.Persistence.RichRepositories
         private readonly IQuestionsRepository _questionsRepository;
         private readonly IQuestionVoteRepository _questionVoteRepository;
         private readonly IAnswersRepository _answersRepository;
+        private readonly IAnswerVoteRepository _answerVoteRepository;
 
-        public RichQuestionRepository(IQuestionsRepository questionsRepository, IQuestionVoteRepository questionVoteRepository, IAnswersRepository answersRepository)
+        public RichQuestionRepository(IQuestionsRepository questionsRepository, IQuestionVoteRepository questionVoteRepository, IAnswersRepository answersRepository, IAnswerVoteRepository answerVoteRepository)
         {
             _questionsRepository = questionsRepository;
             _questionVoteRepository = questionVoteRepository;
             _answersRepository = answersRepository;
+            _answerVoteRepository = answerVoteRepository;
         }
 
         public RichQuestion GetById(User viewingUser, int questionId, int answerStart, int numAnswers)
         {
             var question = _questionsRepository.GetById(questionId);
-            var votes = _questionVoteRepository.GetVoteCount(questionId);
+            var votesOnQuestions = _questionVoteRepository.GetVoteCount(questionId);
             VoteType? vote = null;
             if (viewingUser != null)
             {
@@ -34,13 +36,16 @@ namespace StackUnderflow.Persistence.RichRepositories
                     vote = voteOnQuestion.Vote;
             }
             var answers = _answersRepository.GetTopAnswers(questionId, answerStart, numAnswers);
-            return new RichQuestion(question, votes.Total, vote, answers, 0);
+            var answerCount = _answersRepository.GetAnswerCount(questionId);
+            var answerIDs = answers.Select(x => x.Id);
+            var votesOnAnswers = viewingUser == null ? null : _answerVoteRepository.GetVotes(viewingUser.Id, answerIDs);
+            return new RichQuestion(question, votesOnQuestions.Total, vote, CreateRichAnswers(answers, votesOnAnswers), answerCount);
         }
-
+        
         public List<RichQuestion> GetNewestQuestions(int numberOfQuestions)
         {
             var questions = _questionsRepository.GetNewestQuestions(numberOfQuestions);
-            var questionIds = questions.Select(q => q.Id);
+            var questionIds = questions.Select(q => q.Id).ToList();
             var votes = _questionVoteRepository.GetVoteCount(questionIds);
             var answerCounts = _answersRepository.GetAnswerCount(questionIds);
             return questions.Select(QuestionCreateor(votes, answerCounts)).ToList();
@@ -55,5 +60,13 @@ namespace StackUnderflow.Persistence.RichRepositories
                                          null, 
                                          answerCounts.GetOrDefault(q.Id));
         }
+
+        private static List<RichAnswer> CreateRichAnswers(IList<Answer> answers,
+                                                          Dictionary<int, VoteType> votesOnAnswers)
+        {
+            return answers.Select(x => new RichAnswer(x, 
+                votesOnAnswers.GetOrNull(x.Id))).ToList();
+        }
+
     }
 }

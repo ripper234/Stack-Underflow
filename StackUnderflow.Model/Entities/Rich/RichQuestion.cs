@@ -5,7 +5,7 @@ namespace StackUnderflow.Model.Entities.Rich
 {
     public class RichQuestion
     {
-        public RichQuestion(Question question, int votes, VoteType? currentUsersVotes, List<Answer> answers, int answerCount)
+        public RichQuestion(Question question, int votes, VoteType? currentUsersVotes, List<RichAnswer> answers, int answerCount)
         {
             Question = question;
             Votes = votes;
@@ -15,7 +15,7 @@ namespace StackUnderflow.Model.Entities.Rich
         }
 
         public Question Question { get; private set; }
-        public List<Answer> Answers { get; private set; }
+        public List<RichAnswer> Answers { get; private set; }
         public int Votes { get; private set; }
         public VoteType? CurrentUsersVote { get; private set; }
 

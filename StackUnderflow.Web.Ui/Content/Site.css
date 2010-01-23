@@ -374,7 +374,7 @@ div.vote img
 vertical-align:top;
 width:60px;
 }
-.question-body {
+.question-body , .answer-body {
 font-size:107%;
 line-height:130%;
 margin-bottom:5px;

@@ -1,5 +1,4 @@
 ﻿using System;
-using StackUnderflow.Model.Entities;
 using StackUnderflow.Model.Entities.DB;
 
 namespace StackUnderflow.Web.Ui.Utils

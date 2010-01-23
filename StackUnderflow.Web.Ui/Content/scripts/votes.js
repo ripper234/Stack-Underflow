@@ -39,10 +39,10 @@ function toggleButton(button)
     }
 }
 
-function handleVote(element, voteType) {
+function handleVote(element, controller, voteType) {
     try {
 
-        var questionId = element.parent().find("input").val();
+        var postId = element.parent().find("input").val();
         var wasOn = element.attr("src").indexOf("_on") != -1;
         var wasOff = element.attr("src").indexOf("_off") != -1;
         if (!wasOn && !wasOff)
@@ -72,7 +72,7 @@ function handleVote(element, voteType) {
         currentVotes += recalcVotesDiff(wasOn, voteType) * diffMultiplier;
         totalVotesText.html(currentVotes);
             
-        $.post("/Vote/ProcessVote/", { questionId: questionId, voteType: voteType, wasOn: wasOn}, function (data) {
+        $.post(controller + "/ProcessVote/", { postId: postId, voteType: voteType, wasOn: wasOn}, function (data) {
             // undo bad vote-up
             switch (data)
             {
@@ -97,6 +97,8 @@ function handleVote(element, voteType) {
     }
 }
 $(document).ready(function () {
-    $("img.vote-up").click(function () { handleVote($(this), StackUnderflow.VoteType.ThumbUp); });
-    $("img.vote-down").click(function () { handleVote($(this), StackUnderflow.VoteType.ThumbDown); });
+    $("div.question img.vote-up").click(function () { handleVote($(this), "/QuestionVote", StackUnderflow.VoteType.ThumbUp); });
+    $("div.question  img.vote-down").click(function () { handleVote($(this), "/QuestionVote", StackUnderflow.VoteType.ThumbDown); });
+    $("div.answer img.vote-up").click(function () { handleVote($(this), "/AnswerVote", StackUnderflow.VoteType.ThumbUp); });
+    $("div.answer img.vote-down").click(function () { handleVote($(this), "/AnswerVote", StackUnderflow.VoteType.ThumbDown); });
 });

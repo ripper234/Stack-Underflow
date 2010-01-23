@@ -23,5 +23,15 @@ namespace StackUnderflow.Common
             TValue value;
             return dict.TryGetValue(key, out value) ? value : default(TValue);
         }
+
+        public static TValue? GetOrNull<TKey, TValue>(this IDictionary<TKey, TValue> dict, TKey key)
+                        where TValue : struct
+        {
+            TValue value;
+            if (dict.TryGetValue(key, out value))
+                return value;
+
+            return null;
+        }
     }
 }

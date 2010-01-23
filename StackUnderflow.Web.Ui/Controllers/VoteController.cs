@@ -1,21 +1,22 @@
 using System.Web.Mvc;
-using StackUnderflow.Model.Entities;
 using StackUnderflow.Model.Entities.DB;
 using StackUnderflow.Persistence.Repositories;
 
 namespace StackUnderflow.Web.Ui.Controllers
 {
-    public class VoteController : UserAwareController
+    public abstract class VoteController<TPost, TVoteOnPost> : UserAwareController
+        where TPost : Post where TVoteOnPost : VoteOnPost
     {
-        private readonly IQuestionVoteRepository _questionVoteRepository;
+        private readonly IPostVoteRepository<TVoteOnPost, TPost> _voteRepository;
 
-        public VoteController(IUserRepository userRepository, IQuestionVoteRepository questionVoteRepository) : base(userRepository)
+        protected VoteController(IUserRepository userRepository,
+                                 IPostVoteRepository<TVoteOnPost, TPost> voteRepository)
+            : base(userRepository)
         {
-            _questionVoteRepository = questionVoteRepository;
+            _voteRepository = voteRepository;
         }
 
-        [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult ProcessVote(int questionId, VoteType voteType, bool wasOn)
+        protected ActionResult ProcessVoteImpl(int postId, VoteType voteType, bool wasOn)
         {
             if (CurrentUser == null)
             {
@@ -24,9 +25,9 @@ namespace StackUnderflow.Web.Ui.Controllers
             }
 
             if (!wasOn)
-                _questionVoteRepository.CreateOrUpdateVote(CurrentUser.Id, questionId, voteType);
+                _voteRepository.CreateOrUpdateVote(CurrentUser.Id, postId, voteType);
             else
-                _questionVoteRepository.RemoveVote(CurrentUser.Id, questionId);
+                _voteRepository.RemoveVote(CurrentUser.Id, postId);
 
             return ReturnVal(VoteResult.OK);
         }

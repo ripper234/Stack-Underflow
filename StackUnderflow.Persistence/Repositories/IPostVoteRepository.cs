@@ -16,5 +16,6 @@ namespace StackUnderflow.Persistence.Repositories
         void CreateOrUpdateVote(int userId, int postId, VoteType voteType);
         void RemoveVote(int voterId, int postId);
         TVoteOnPost GetVote(int userId, int postId);
+        Dictionary<int, VoteType> GetVotes(int userid, IEnumerable<int> postIDs);
     }
 }

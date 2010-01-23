@@ -175,6 +175,12 @@ namespace StackUnderflow.Persistence.Repositories
             return ActiveRecordBase<TVoteOnPost>.TryFind(new VoteKey(userId, postId));
         }
 
+        public Dictionary<int, VoteType> GetVotes(int userId, IEnumerable<int> postIDs)
+        {
+            var userVotes = ActiveRecordMediator<TVoteOnPost>.FindAllByProperty("Key.UserId", userId);
+            return userVotes.ToDictionary(x => x.Key.PostId, x => x.Vote);
+        }
+
         private static string VotesTableName
         {
             get { return typeof(TVoteOnPost).Name; }

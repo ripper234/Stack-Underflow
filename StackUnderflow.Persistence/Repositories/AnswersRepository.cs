@@ -5,6 +5,7 @@ using System.Text;
 using Castle.ActiveRecord;
 using NHibernate;
 using NHibernate.Criterion;
+using StackUnderflow.Common;
 using StackUnderflow.Model.Entities.DB;
 
 namespace StackUnderflow.Persistence.Repositories
@@ -24,8 +25,11 @@ namespace StackUnderflow.Persistence.Repositories
             return new List<Answer>(answeres);
         }
 
-        public Dictionary<int, int> GetAnswerCount(IEnumerable<int> questionIds)
+        public Dictionary<int, int> GetAnswerCount(IList<int> questionIds)
         {
+            if (questionIds.Count == 0)
+                return new Dictionary<int, int>(0);
+
             var builder = new StringBuilder("SELECT QuestionId, count(*) from Answer ");
             builder.Append("WHERE QuestionId ");
             BuildInClause(builder, questionIds);
@@ -33,6 +37,12 @@ namespace StackUnderflow.Persistence.Repositories
 
             var sql = builder.ToString();
             return RunQuery(sql, x => (int)(long)(x.Single()[1]));
+        }
+
+        public int GetAnswerCount(int questionId)
+        {
+            var answerCounts = GetAnswerCount(new[] {questionId});
+            return answerCounts.GetOrDefault(questionId);
         }
     }
 }

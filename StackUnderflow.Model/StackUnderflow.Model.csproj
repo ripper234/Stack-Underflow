@@ -62,6 +62,7 @@
     <Compile Include="Entities\DB\VoteOnPost.cs" />
     <Compile Include="Entities\DB\VoteOnQuestion.cs" />
     <Compile Include="Entities\DB\VoteType.cs" />
+    <Compile Include="Entities\Rich\RichAnswer.cs" />
     <Compile Include="Entities\Rich\RichQuestion.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
