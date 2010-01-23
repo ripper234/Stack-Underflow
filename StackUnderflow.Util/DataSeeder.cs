@@ -14,20 +14,24 @@ namespace StackUnderflow.Util
         private readonly IUserRepository _userRepository;
         private readonly IQuestionsRepository _questionsRepository;
         private readonly IQuestionVoteRepository _questionVoteRepository;
+        private readonly IAnswerVoteRepository _answerVoteRepository;
         private readonly List<User> _users = new List<User>();
         private readonly IAnswersRepository _answersRepository;
         private readonly Random _random = new Random();
         private readonly List<Question> _questions = new List<Question>();
+        private readonly List<Answer> _answers = new List<Answer>();
         private readonly string[] _words = new[] { "Dog", "Cat", "Question", "Computer", "Math", "Problem", "Science" };
         
         public DataSeeder(IUserRepository userRepository, IQuestionsRepository questionsRepository, ISessionFactory sessionFactory,
-            IQuestionVoteRepository questionVoteRepository, IAnswersRepository answersRepository)
+            IQuestionVoteRepository questionVoteRepository, IAnswersRepository answersRepository,
+            IAnswerVoteRepository answerVoteRepository)
         {
             _userRepository = userRepository;
             _questionsRepository = questionsRepository;
             _questionVoteRepository = questionVoteRepository;
             _sessionFactory = sessionFactory;
             _answersRepository = answersRepository;
+            _answerVoteRepository = answerVoteRepository;
         }
 
         public void Run()
@@ -43,10 +47,9 @@ namespace StackUnderflow.Util
                 AddQuestion();
             }
             
-            // some votes
-            AddVotes();
-
+            AddQuestionVotes();
             AddAnswers();
+            AddAnswerVotes();
 
             var questions = _questionsRepository.GetNewestQuestions(10);
             Console.WriteLine(string.Format("Got {0} questions", questions.Length));
@@ -69,11 +72,12 @@ namespace StackUnderflow.Util
                                      QuestionId = questionId,
                                      UpdateDate = date,
                                  };
+                _answers.Add(answer);
                 _answersRepository.Save(answer);
             }
         }
 
-        private void AddVotes()
+        private void AddQuestionVotes()
         {
             _questionVoteRepository.CreateOrUpdateVote(_users[0], _questions[0], VoteType.ThumbUp);
             _questionVoteRepository.CreateOrUpdateVote(_users[1], _questions[0], VoteType.ThumbUp);
@@ -81,6 +85,15 @@ namespace StackUnderflow.Util
             _questionVoteRepository.CreateOrUpdateVote(_users[1], _questions[1], VoteType.ThumbDown);
             _questionVoteRepository.CreateOrUpdateVote(_users[2], _questions[1], VoteType.ThumbUp);
             _questionVoteRepository.CreateOrUpdateVote(_users[2], _questions[2], VoteType.ThumbDown);
+        }
+
+        private void AddAnswerVotes()
+        {
+            _answerVoteRepository.CreateOrUpdateVote(_users[1], _answers[0], VoteType.ThumbUp);
+            _answerVoteRepository.CreateOrUpdateVote(_users[0], _answers[1], VoteType.ThumbUp);
+            _answerVoteRepository.CreateOrUpdateVote(_users[1], _answers[1], VoteType.ThumbUp);
+            _answerVoteRepository.CreateOrUpdateVote(_users[2], _answers[2], VoteType.ThumbUp);
+            _answerVoteRepository.CreateOrUpdateVote(_users[2], _answers[2], VoteType.ThumbUp);
         }
 
         private void AddQuestion()
