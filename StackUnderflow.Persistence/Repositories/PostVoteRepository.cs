@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Castle.ActiveRecord;
 using NHibernate;
+using NHibernate.Exceptions;
 using StackUnderflow.Common;
 using StackUnderflow.Model.Entities;
 using StackUnderflow.Model.Entities.DB;
@@ -24,34 +25,77 @@ namespace StackUnderflow.Persistence.Repositories
 
         public void CreateOrUpdateVote(int userId, int postId, VoteType voteType)
         {
+            var key = new VoteKey {UserId = userId, PostId = postId};
+            int existingVoteValue = GetExistingVoteValue(key);
+            int voteDiff = GradeVote(voteType) - existingVoteValue;
             var vote = new TVoteOnPost
                            {
-                               Key = new VoteKey { UserId = userId, PostId = postId },
+                               Key = key,
                                Vote = voteType
                            };
-
             try
             {
                 ActiveRecordMediator<TVoteOnPost>.Create(vote);
             }
-            catch (Exception)
+            catch (GenericADOException)
             {
                 ActiveRecordMediator<TVoteOnPost>.Update(vote);
             }
-            //ActiveRecordMediator<VoteOnQuestion>.Save(vote);
+            // todo - use this instead of the above
+            // http://stackoverflow.com/questions/2077949/castle-activerecord-save-is-throwing-stalestateexception
+            // ActiveRecordMediator<TVoteOnPost>.Save(vote);
+            UpdateVotesOnAnswer(postId, voteDiff);
+        }
+
+        private void UpdateVotesOnAnswer(int postId, int voteDiff)
+        {
+            using (var session = SessionFactory.OpenSession())
+            {
+                var query =
+                    session.CreateQuery("UPDATE " + PostTableName +
+                                        " set Votes = Votes + :voteDiff where Id = :postId");
+                query.SetInt32("voteDiff", voteDiff);
+                query.SetInt32("postId", postId);
+                query.ExecuteUpdate();
+            }
+        }
+
+        private static int GradeVote(TVoteOnPost vote)
+        {
+            if (vote == null)
+                return 0;
+
+            return GradeVote(vote.Vote);
+        }
+
+        private static int GradeVote(VoteType vote)
+        {
+            switch (vote)
+            {
+                case VoteType.ThumbUp:
+                    return 1;
+
+                case VoteType.ThumbDown:
+                    return -1;
+
+                default:
+                    throw new Exception("Illegal vote type: " + vote);
+            }
         }
 
         public void RemoveVote(int voterId, int postId)
         {
-            var voteOnQuestion = new TVoteOnPost {Key = new VoteKey(voterId, postId)};
+            var key = new VoteKey(voterId, postId);
+            var voteOnQuestion = new TVoteOnPost {Key = key};
             try
             {
+                int votesDelta = - GetExistingVoteValue(key);
                 ActiveRecordMediator<TVoteOnPost>.Delete(voteOnQuestion);
+                UpdateVotesOnAnswer(postId, votesDelta);
             }
-            catch (Exception)
+            catch (ObjectNotFoundException)
             {
                 // swallow it, the deleted object is really not there
-                // todo - should catch a specific exception, not just any
             }
         }
 
@@ -63,7 +107,7 @@ namespace StackUnderflow.Persistence.Repositories
                 {
                     var query =
                         session.CreateQuery(
-                            "SELECT Vote, COUNT(*) FROM " + TableName + " WHERE PostId = :postId GROUP BY vote");
+                            "SELECT Vote, COUNT(*) FROM " + VotesTableName + " WHERE PostId = :postId GROUP BY vote");
                     query.SetInt32("postId", postId);
                     var result = query.List().Cast<object[]>().ToDictionary(
                         x => (VoteType) x[0],
@@ -94,7 +138,7 @@ namespace StackUnderflow.Persistence.Repositories
                     else
                         postIdsStr += ", " + id;
                 }
-                var sql = string.Format("SELECT Key.PostId, Vote, COUNT(*) FROM " + TableName + " WHERE PostId IN ({0}) GROUP BY PostId, vote", postIdsStr);
+                var sql = string.Format("SELECT Key.PostId, Vote, COUNT(*) FROM " + VotesTableName + " WHERE PostId IN ({0}) GROUP BY PostId, vote", postIdsStr);
                 using (var session = SessionFactory.OpenSession())
                 {
                     var query = session.CreateQuery(sql);
@@ -140,9 +184,20 @@ namespace StackUnderflow.Persistence.Repositories
             return ActiveRecordBase<TVoteOnPost>.TryFind(new VoteKey(userId, postId));
         }
 
-        private static string TableName
+        private static string VotesTableName
         {
             get { return typeof(TVoteOnPost).Name; }
+        }
+
+        private static string PostTableName
+        {
+            get { return typeof (TPost).Name; }
+        }
+
+        private static int GetExistingVoteValue(VoteKey key)
+        {
+            var existingVote = ActiveRecordMediator<TVoteOnPost>.FindByPrimaryKey(key, false);
+            return GradeVote(existingVote);
         }
     }
 }

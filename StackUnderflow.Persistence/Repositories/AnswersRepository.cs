@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Castle.ActiveRecord;
 using NHibernate;
-using StackUnderflow.Common;
-using StackUnderflow.Model.Entities;
+using NHibernate.Criterion;
 using StackUnderflow.Model.Entities.DB;
 
 namespace StackUnderflow.Persistence.Repositories
@@ -14,21 +14,27 @@ namespace StackUnderflow.Persistence.Repositories
         {
         }
 
-        public List<Answer> GetTopAnswers(int questionId, long answerStart, long answerEnd)
+        public List<Answer> GetTopAnswers(long questionId, long answerStart, int maxResults)
         {
-            using (var session = SessionFactory.OpenSession())
-            {
-                var query =
-                    session.CreateQuery(
-                        "SELECT * from VoteOnAnswer, COUNT(*) FROM VoteOnQuestion WHERE QuestionId = :questionId GROUP BY vote");
-                query.SetInt32("questionId", questionId);
-                var result = query.List().Cast<object[]>().ToDictionary(
-                    x => (VoteType)x[0],
-                    x => (long)x[1]);
+            var answeres = ActiveRecordMediator<Answer>.SlicedFindAll((int)answerStart, maxResults, 
+                                                       DetachedCriteria.For<Answer>().
+                                                        Add(Restrictions.Eq("QuestionId", questionId)), 
+                                                       Order.Desc("Votes"));
+            return new List<Answer>(answeres);
+//                                   
+//            using (var session = SessionFactory.OpenSession())
+//            {
+//                var query =
+//                    session.CreateQuery(
+//                        "SELECT * from Answers FROM VoteOnAnswer WHERE PostId = :postId");
+//                query.SetInt32("postId", postId);
+//                var result = query.List().Cast<object[]>().ToDictionary(
+//                    x => (VoteType)x[0],
+//                    x => (long)x[1]);
 //                return new VoteCount(result.TryGetValueWithDefault(VoteType.ThumbUp),
 //                                     result.TryGetValueWithDefault(VoteType.ThumbDown));
-                throw new Exception("TODO");
-            }
+//                throw new Exception("TODO");
+//            }
         }
     }
 }

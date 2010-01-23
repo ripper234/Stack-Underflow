@@ -5,6 +5,6 @@ namespace StackUnderflow.Persistence.Repositories
 {
     public interface IAnswersRepository : IRepository<Answer>
     {
-        List<Answer> GetTopAnswers(int questionId, long answerStart, long answerEnd);
+        List<Answer> GetTopAnswers(long questionId, long answerStart, int maxResults);
     }
 }

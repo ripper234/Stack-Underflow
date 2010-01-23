@@ -13,12 +13,20 @@ namespace StackUnderflow
             using (var session = sessionFactory.OpenSession())
             using (var tx = session.BeginTransaction())
             {
-                session.CreateSQLQuery("truncate table Answers").ExecuteUpdate();
-                session.CreateSQLQuery("truncate table VotesOnQuestions").ExecuteUpdate();
-                session.CreateSQLQuery("truncate table Questions").ExecuteUpdate();
-                session.CreateSQLQuery("truncate table Users").ExecuteUpdate();
+                AddQuery(session, "truncate table tags");
+                AddQuery(session, "truncate table questiontags");
+                AddQuery(session, "truncate table VotesOnAnswers");
+                AddQuery(session, "truncate table Answers");
+                AddQuery(session, "truncate table VotesOnQuestions");
+                AddQuery(session, "truncate table Questions");
+                AddQuery(session, "truncate table Users");
                 tx.Commit();
             }
+        }
+
+        private static void AddQuery(ISession session, string query)
+        {
+            session.CreateSQLQuery(query).ExecuteUpdate();
         }
     }
 }

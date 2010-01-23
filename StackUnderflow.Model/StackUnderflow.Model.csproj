@@ -54,6 +54,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Entities\DB\Answer.cs" />
+    <Compile Include="Entities\DB\Post.cs" />
     <Compile Include="Entities\DB\Question.cs" />
     <Compile Include="Entities\DB\User.cs" />
     <Compile Include="Entities\DB\VoteKey.cs" />

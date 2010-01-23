@@ -1,5 +1,6 @@
 using System.Web.Mvc;
 using StackUnderflow.Model.Entities;
+using StackUnderflow.Model.Entities.DB;
 using StackUnderflow.Persistence.Repositories;
 
 namespace StackUnderflow.Web.Ui.Controllers

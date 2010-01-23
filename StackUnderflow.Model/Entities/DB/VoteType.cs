@@ -1,4 +1,4 @@
-﻿namespace StackUnderflow.Model.Entities
+﻿namespace StackUnderflow.Model.Entities.DB
 {
     public enum VoteType
     {

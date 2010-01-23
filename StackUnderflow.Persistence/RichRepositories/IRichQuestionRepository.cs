@@ -7,6 +7,6 @@ namespace StackUnderflow.Persistence.RichRepositories
     public interface IRichQuestionRepository
     {
         List<RichQuestion> GetNewestQuestions(int numberOfQuestions);
-        RichQuestion GetById(User viewingUser, int questionId, long answerStart, long answerEnd);
+        RichQuestion GetById(User viewingUser, int questionId, long answerStart, int numAnswers);
     }
 }

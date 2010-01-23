@@ -1,5 +1,6 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<StackUnderflow.Web.Ui.Model.ItemModel<StackUnderflow.Model.Entities.Rich.RichQuestion>>" %>
 <%@ Import Namespace="StackUnderflow.Model.Entities" %>
+<%@ Import Namespace="StackUnderflow.Model.Entities.DB" %>
 <%@ Import Namespace="StackUnderflow.Web.Ui" %>
 <%@ Import Namespace="StackUnderflow.Web.Ui.Utils" %>
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using StackUnderflow.Common;
 using StackUnderflow.Model.Entities;
+using StackUnderflow.Model.Entities.DB;
 using StackUnderflow.Model.Entities.Rich;
 using StackUnderflow.Persistence.Repositories;
 
@@ -21,7 +22,7 @@ namespace StackUnderflow.Persistence.RichRepositories
             _answersRepository = answersRepository;
         }
 
-        public RichQuestion GetById(User viewingUser, int questionId, long answerStart, long answerEnd)
+        public RichQuestion GetById(User viewingUser, int questionId, long answerStart, int numAnswers)
         {
             var question = _questionsRepository.GetById(questionId);
             var votes = _questionVoteRepository.GetVoteCount(questionId);
@@ -32,7 +33,7 @@ namespace StackUnderflow.Persistence.RichRepositories
                 if (voteOnQuestion != null)
                     vote = voteOnQuestion.Vote;
             }
-            var answers = _answersRepository.GetTopAnswers(questionId, answerStart, answerEnd);
+            var answers = _answersRepository.GetTopAnswers(questionId, answerStart, numAnswers);
             return new RichQuestion(question, votes.Total, vote, answers);
         }
 
