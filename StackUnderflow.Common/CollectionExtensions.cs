@@ -27,6 +27,9 @@ namespace StackUnderflow.Common
         public static TValue? GetOrNull<TKey, TValue>(this IDictionary<TKey, TValue> dict, TKey key)
                         where TValue : struct
         {
+            if (dict == null)
+                return null;
+
             TValue value;
             if (dict.TryGetValue(key, out value))
                 return value;

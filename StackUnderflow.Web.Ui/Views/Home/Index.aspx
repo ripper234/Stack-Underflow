@@ -15,11 +15,11 @@
                 <div><%= Html.Encode(item.Votes) %></div>
                 <div>votes</div>
             </div>
-            <div class="answers">
+            <div class="answer-count">
                 <div><%= Html.Encode(item.AnswerCount) %></div>
                 <div>answers</div>
             </div>
-            <div class="body">
+            <div class="question-short-body">
                 <h3><% Html.RenderPartial("QuestionLink", item.Question); %></h3>
                 <div class="shortinfo">
                     <span class="reltime"><%= TimeUtils.ToRelativeTime(item.Question.UpdateDate) %></span>

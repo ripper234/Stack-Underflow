@@ -81,7 +81,7 @@ h5, h6
 }
 
 /* this rule styles <h2> tags that are the 
-first child of the left and right table columns */
+first child of the left and right atable columns */
 .rightColumn > h1, .rightColumn > h2, .leftColumn > h1, .leftColumn > h2
 {
     margin-top: 0;
@@ -235,22 +235,22 @@ input[type="password"]
     border: 1px solid #CCC;
 }
 
-/* TABLE
+/* atable
 ----------------------------------------------------------*/
 
-table 
+atable 
 {
   border: solid 1px #e8eef4;
   border-collapse: collapse;
 }
 
-table td 
+atable td 
 {
   padding: 5px;   
   border: solid 1px #e8eef4;
 }
 
-table th
+atable th
 {
   padding: 6px 5px;
   text-align: left;
@@ -334,7 +334,7 @@ div#title
 border-bottom:1px dotted #999999;
 overflow:hidden;
 padding:11px 0;
-width:730px;
+width:800px;
 }
 
 .shortinfo 
@@ -345,6 +345,9 @@ width:730px;
 .post-signature
 {
     float:right;
+    border-style:dashed;
+    border-width:1px;
+    width:165px;
 }
 
 p.large-number
@@ -380,4 +383,43 @@ line-height:130%;
 margin-bottom:5px;
 margin-right:5px;
 width:660px;
+}
+.question table, .answer table
+{
+    border:0;
+}
+.answers h2
+{
+    border-bottom:2px solid;
+}
+.answer
+{
+    border-bottom:1px solid;
+}
+
+div.votes , div.answer-count , div.question-short-body
+{
+    float:left;
+    margin-left:4px;
+    padding-left:2px;
+    padding-right:2px;
+    border:1px;
+}
+
+div.votes
+{
+    background-color:Orange;
+    text-align:center;
+}
+
+div.answer-count
+{
+    background-color:Teal;
+    color:White;
+    text-align:center;
+}
+
+div.question-short-body
+{
+    width:600px;
 }

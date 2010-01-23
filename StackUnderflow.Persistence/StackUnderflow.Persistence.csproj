@@ -59,6 +59,7 @@
     <Compile Include="ActiveRecordLinqContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\AnswersRepository.cs" />
+    <Compile Include="Repositories\AnswerVoteRepository.cs" />
     <Compile Include="Repositories\IAnswersRepository.cs" />
     <Compile Include="Repositories\IAnswerVoteRepository.cs" />
     <Compile Include="Repositories\IPostVoteRepository.cs" />
