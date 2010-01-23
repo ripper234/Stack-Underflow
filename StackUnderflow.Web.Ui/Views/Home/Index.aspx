@@ -15,7 +15,10 @@
                 <div><%= Html.Encode(item.Votes) %></div>
                 <div>votes</div>
             </div>
-            <div class="answers"></div>
+            <div class="answers">
+                <div><%= Html.Encode(item.AnswerCount) %></div>
+                <div>answers</div>
+            </div>
             <div class="body">
                 <h3><% Html.RenderPartial("QuestionLink", item.Question); %></h3>
                 <div class="shortinfo">

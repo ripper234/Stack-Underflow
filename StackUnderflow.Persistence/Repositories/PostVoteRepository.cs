@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using Castle.ActiveRecord;
 using NHibernate;
 using NHibernate.Exceptions;
@@ -10,7 +11,8 @@ using StackUnderflow.Model.Entities.DB;
 
 namespace StackUnderflow.Persistence.Repositories
 {
-    public abstract class PostVoteRepository<TVoteOnPost, TPost> : RepositoryBase<TVoteOnPost> 
+    public abstract class PostVoteRepository<TVoteOnPost, TPost> : RepositoryBase<TVoteOnPost> ,
+                                                                   IPostVoteRepository<TVoteOnPost, TPost>
         where TVoteOnPost : VoteOnPost, new()
         where TPost : Post
     {
@@ -122,34 +124,23 @@ namespace StackUnderflow.Persistence.Repositories
             }
         }
 
-        public Dictionary<int, int> GetVoteCount(IEnumerable<int> postIdses)
+        public Dictionary<int, int> GetVoteCount(IEnumerable<int> postIds)
         {
             try
             {
-                var postIdsStr = "";
-                bool first = true;
-                foreach (var id in postIdses)
-                {
-                    if (first)
-                    {
-                        first = false;
-                        postIdsStr += id;
-                    }
-                    else
-                        postIdsStr += ", " + id;
-                }
-                var sql = string.Format("SELECT Key.PostId, Vote, COUNT(*) FROM " + VotesTableName + " WHERE PostId IN ({0}) GROUP BY PostId, vote", postIdsStr);
-                using (var session = SessionFactory.OpenSession())
-                {
-                    var query = session.CreateQuery(sql);
-                    var result = query.List().Cast<object[]>().GroupBy(x => x[0]);
-                    return result.ToDictionary(x => (int)x.Key, 
-                                                   x => x.Sum(y => (int)(((long)y[2]) * GetWeight((VoteType)y[1]))));
-                }
+                var builder = new StringBuilder();
+                builder.Append("SELECT Key.PostId, Vote, COUNT(*) FROM ");
+                builder.Append(VotesTableName);
+                builder.Append(" WHERE PostId ");
+                BuildInClause(builder, postIds);
+                builder.Append("GROUP BY PostId, vote");
+                var sql = builder.ToString();
+                return RunQuery(sql, 
+                                x => x.Sum(y => (int)(((long)y[2]) * GetWeight((VoteType)y[1]))));
             }
             catch (Exception e)
             {
-                throw new Exception("Failed to get vote counts for questions " + postIdses, e);
+                throw new Exception("Failed to get vote counts for questions " + postIds, e);
             }
         }
 

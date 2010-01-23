@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using Castle.ActiveRecord;
 using NHibernate;
 using NHibernate.Criterion;
@@ -14,27 +15,24 @@ namespace StackUnderflow.Persistence.Repositories
         {
         }
 
-        public List<Answer> GetTopAnswers(long questionId, long answerStart, int maxResults)
+        public List<Answer> GetTopAnswers(int questionId, int answerStart, int maxResults)
         {
-            var answeres = ActiveRecordMediator<Answer>.SlicedFindAll((int)answerStart, maxResults, 
+            var answeres = ActiveRecordMediator<Answer>.SlicedFindAll(answerStart, maxResults, 
                                                        DetachedCriteria.For<Answer>().
                                                         Add(Restrictions.Eq("QuestionId", questionId)), 
                                                        Order.Desc("Votes"));
             return new List<Answer>(answeres);
-//                                   
-//            using (var session = SessionFactory.OpenSession())
-//            {
-//                var query =
-//                    session.CreateQuery(
-//                        "SELECT * from Answers FROM VoteOnAnswer WHERE PostId = :postId");
-//                query.SetInt32("postId", postId);
-//                var result = query.List().Cast<object[]>().ToDictionary(
-//                    x => (VoteType)x[0],
-//                    x => (long)x[1]);
-//                return new VoteCount(result.TryGetValueWithDefault(VoteType.ThumbUp),
-//                                     result.TryGetValueWithDefault(VoteType.ThumbDown));
-//                throw new Exception("TODO");
-//            }
+        }
+
+        public Dictionary<int, int> GetAnswerCount(IEnumerable<int> questionIds)
+        {
+            var builder = new StringBuilder("SELECT QuestionId, count(*) from Answer ");
+            builder.Append("WHERE QuestionId ");
+            BuildInClause(builder, questionIds);
+            builder.Append(" GROUP BY QuestionId");
+
+            var sql = builder.ToString();
+            return RunQuery(sql, x => (int)(long)(x.Single()[1]));
         }
     }
 }

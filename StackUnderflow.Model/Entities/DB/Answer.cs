@@ -6,6 +6,6 @@ namespace StackUnderflow.Model.Entities.DB
     public class Answer : Post
     {
         [Property]
-        public long QuestionId { get; set; }
+        public int QuestionId { get; set; }
     }
 }

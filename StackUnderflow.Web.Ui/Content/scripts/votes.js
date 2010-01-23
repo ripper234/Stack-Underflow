@@ -80,7 +80,7 @@ function handleVote(element, voteType) {
                 // all is well, nothing to do
                 break;
                 
-            case StackUnderflow.VoteResultType.NOT:
+            case StackUnderflow.VoteResultType.NOT_LOGGED_IN:
                 // TODO
                 alert("not logged in");
                 break;

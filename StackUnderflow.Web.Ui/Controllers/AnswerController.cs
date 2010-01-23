@@ -14,7 +14,7 @@ namespace StackUnderflow.Web.Ui.Controllers
         }
 
         [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult Submit(long questionId, string body)
+        public ActionResult Submit(int questionId, string body)
         {
             if (CurrentUser == null)
             {

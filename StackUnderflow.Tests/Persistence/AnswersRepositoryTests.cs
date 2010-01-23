@@ -55,6 +55,16 @@ namespace StackUnderflow.Tests.Persistence
         }
 
         [Test]
+        public void AnswerCount()
+        {
+            var answers = _answersRepository.GetAnswerCount(new []{_question.Id});
+            Assert.AreEqual(1, answers.Count);
+            Assert.AreEqual(_question.Id, answers.Single().Key);
+            Assert.AreEqual(5, answers.Single().Value);
+        }
+
+
+        [Test]
         public void OderTest()
         {
             var answers = _answersRepository.GetTopAnswers(_question.Id, 0, 5);

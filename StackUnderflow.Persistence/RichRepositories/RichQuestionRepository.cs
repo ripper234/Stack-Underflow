@@ -22,7 +22,7 @@ namespace StackUnderflow.Persistence.RichRepositories
             _answersRepository = answersRepository;
         }
 
-        public RichQuestion GetById(User viewingUser, int questionId, long answerStart, int numAnswers)
+        public RichQuestion GetById(User viewingUser, int questionId, int answerStart, int numAnswers)
         {
             var question = _questionsRepository.GetById(questionId);
             var votes = _questionVoteRepository.GetVoteCount(questionId);
@@ -34,14 +34,26 @@ namespace StackUnderflow.Persistence.RichRepositories
                     vote = voteOnQuestion.Vote;
             }
             var answers = _answersRepository.GetTopAnswers(questionId, answerStart, numAnswers);
-            return new RichQuestion(question, votes.Total, vote, answers);
+            return new RichQuestion(question, votes.Total, vote, answers, 0);
         }
 
         public List<RichQuestion> GetNewestQuestions(int numberOfQuestions)
         {
             var questions = _questionsRepository.GetNewestQuestions(numberOfQuestions);
-            var votes = _questionVoteRepository.GetVoteCount(questions.Select(q => q.Id));
-            return questions.Select(q => new RichQuestion(q, votes.GetOrDefault(q.Id), null, null)).ToList();
+            var questionIds = questions.Select(q => q.Id);
+            var votes = _questionVoteRepository.GetVoteCount(questionIds);
+            var answerCounts = _answersRepository.GetAnswerCount(questionIds);
+            return questions.Select(QuestionCreateor(votes, answerCounts)).ToList();
+        }
+
+        private static Func<Question, RichQuestion> QuestionCreateor(Dictionary<int, int> votes,
+                                                                     Dictionary<int, int> answerCounts)
+        {
+            return q => new RichQuestion(q, 
+                                         votes.GetOrDefault(q.Id), 
+                                         null, 
+                                         null, 
+                                         answerCounts.GetOrDefault(q.Id));
         }
     }
 }
