@@ -24,7 +24,7 @@ namespace StackUnderflow.Web.Ui.Controllers
 
         public ActionResult Details(int id)
         {
-            return SingleUserView(_richQuestionRepository.GetById(CurrentUser, id, 0, 10));
+            return SingleUserView(_richQuestionRepository.GetById(GetCurrentUser(), id, 0, 10));
         }
 
 
@@ -56,7 +56,7 @@ namespace StackUnderflow.Web.Ui.Controllers
 
         public ActionResult Ask()
         {
-            if (CurrentUser == null)
+            if (GetCurrentUser() == null)
                 return RedirectToLoginPage();
 
             return EmptyUserView();
@@ -65,15 +65,15 @@ namespace StackUnderflow.Web.Ui.Controllers
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult Ask(string title, string body)
         {
-            if (CurrentUser == null)
+            if (GetCurrentUser() == null)
                 return RedirectToLoginPage();
             var now = DateTime.Now;
             var question = new Question
                 {
                     CreatedDate = now,
-                    Author = CurrentUser,
+                    Author = GetCurrentUser(),
                     Body = body,
-                    LastRelatedUser = CurrentUser,
+                    LastRelatedUser = GetCurrentUser(),
                     Title = title,
                     UpdateDate = now,
                 };

@@ -16,14 +16,14 @@ namespace StackUnderflow.Web.Ui.Controllers
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult Submit(int questionId, string body)
         {
-            if (CurrentUser == null)
+            if (GetCurrentUser() == null)
             {
                 // todo - handle casual user
                 throw new Exception("Must be signed in to post answers");
             }
 
             var now = DateTime.Now;
-            var answer = new Answer {Body = body, QuestionId = questionId, Author = CurrentUser, CreatedDate = now, LastRelatedUser = CurrentUser, UpdateDate = now};
+            var answer = new Answer {Body = body, QuestionId = questionId, Author = GetCurrentUser(), CreatedDate = now, LastRelatedUser = GetCurrentUser(), UpdateDate = now};
             _answersRepository.Save(answer);
             return RedirectToAction("Details", "Question", new { id = questionId});
         }

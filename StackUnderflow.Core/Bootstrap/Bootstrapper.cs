@@ -15,7 +15,6 @@ namespace StackUnderflow.Bootstrap
     public class Bootstrapper
     {
         public static readonly Bootstrapper Instance = new Bootstrapper();
-        //private readonly ISessionFactory _sessionFactory = CreateSessionFactory();
 
         /// <summary>
         ///   Singleton, use Bootstrapper.Instance
@@ -23,11 +22,6 @@ namespace StackUnderflow.Bootstrap
         private Bootstrapper()
         {
         }
-
-//        private static void InitializeActiveRecord()
-//        {
-//            ActiveRecordStarter.Initialize(typeof(User).Assembly, ActiveRecordSectionHandler.Instance);
-//        }
 
         public WindsorContainer CreateContainer(params Assembly[] extreaAssemblies)
         {
@@ -41,16 +35,5 @@ namespace StackUnderflow.Bootstrap
 
             return container;
         }
-
-//        private static ISessionFactory CreateSessionFactory()
-//        {
-//            const string mySqlConnectionParamName = "MySqlDbConnectionString";
-//            var configurator = new NHibernateConfigurator();
-//            MySQLConfiguration mySqlConfiguration =
-//                MySQLConfiguration.Standard.ConnectionString(
-//                    c => c.FromConnectionStringWithKey(mySqlConnectionParamName));
-//            Configuration configuration = configurator.Configure(new NHibernateConfig(mySqlConfiguration));
-//            return configuration.BuildSessionFactory();
-//        }
     }
 }

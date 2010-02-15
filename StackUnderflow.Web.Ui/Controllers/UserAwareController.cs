@@ -19,38 +19,39 @@ namespace StackUnderflow.Web.Ui.Controllers
 
         private ModelBase CreateEmptyModel()
         {
-            return new EmptyModel(CurrentUser);
+            return new EmptyModel(GetCurrentUser());
         }
 
         private ModelBase CreateSingleModel<T>(T item)
         {
-            return new ItemModel<T>(CurrentUser, item);
+            return new ItemModel<T>(GetCurrentUser(), item);
         }
 
         private ModelBase CreateMultipleModel<T>(T[] items)
         {
-            return new ItemsModel<T>(CurrentUser, items);
+            return new ItemsModel<T>(GetCurrentUser(), items);
         }
 
         private ModelBase CreateMultipleModel<T>(IEnumerable<T> items)
         {
-            return new ItemsModel<T>(CurrentUser, items);
+            return new ItemsModel<T>(GetCurrentUser(), items);
         }
 
-        protected User CurrentUser
+        /// <summary>
+        /// Reads the current user from the database.
+        /// </summary>
+        /// <returns></returns>
+        protected User GetCurrentUser()
         {
-            get
-            {
-                if (_currentUser != null)
-                    return _currentUser;
-
-                var id = User.Identity.Name;
-                if (string.IsNullOrEmpty(id))
-                    return null;
-
-                _currentUser = Users.GetById(int.Parse(id));
+            if (_currentUser != null)
                 return _currentUser;
-            }
+
+            var id = User.Identity.Name;
+            if (string.IsNullOrEmpty(id))
+                return null;
+
+            _currentUser = Users.GetById(int.Parse(id));
+            return _currentUser;
         }
 
         protected ActionResult MultipleUserView<T>(IEnumerable<T> items)

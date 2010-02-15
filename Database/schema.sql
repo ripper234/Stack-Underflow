@@ -1,6 +1,6 @@
 /*
 SQLyog Enterprise - MySQL GUI v7.02 
-MySQL - 5.1.41-community : Database - test
+MySQL - 5.1.42-community : Database - stackunderflow
 *********************************************************************
 */
 
@@ -11,9 +11,9 @@ MySQL - 5.1.41-community : Database - test
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 
-CREATE DATABASE /*!32312 IF NOT EXISTS*/`test` /*!40100 DEFAULT CHARACTER SET latin1 */;
+CREATE DATABASE /*!32312 IF NOT EXISTS*/`stackunderflow` /*!40100 DEFAULT CHARACTER SET utf8 */;
 
-USE `test`;
+USE `stackunderflow`;
 
 /*Table structure for table `answers` */
 
@@ -27,18 +27,15 @@ CREATE TABLE `answers` (
   `LastRelatedUser` int(4) unsigned NOT NULL,
   `CreatedDate` datetime NOT NULL,
   `Author` int(4) unsigned NOT NULL,
+  `Votes` int(4) NOT NULL,
   PRIMARY KEY (`Id`),
   KEY `FK_answers` (`QuestionId`),
   KEY `FK_answersa` (`Author`),
   KEY `FK_lastrelateduser` (`LastRelatedUser`),
-  CONSTRAINT `FK_lastrelateduser` FOREIGN KEY (`LastRelatedUser`) REFERENCES `users` (`Id`),
   CONSTRAINT `FK_answers` FOREIGN KEY (`QuestionId`) REFERENCES `questions` (`Id`),
-  CONSTRAINT `FK_answersa` FOREIGN KEY (`Author`) REFERENCES `users` (`Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
-
-/*Data for the table `answers` */
-
-insert  into `answers`(`Id`,`QuestionId`,`Body`,`UpdateDate`,`LastRelatedUser`,`CreatedDate`,`Author`) values (1,1,'Answer # 0','2010-01-22 17:30:33',1,'2010-01-22 17:30:33',1),(2,1,'Answer # 1','2010-01-22 17:30:33',1,'2010-01-22 17:30:33',1),(3,1,'Answer # 2','2010-01-22 17:30:34',1,'2010-01-22 17:30:34',1),(4,1,'Answer # 3','2010-01-22 17:30:34',1,'2010-01-22 17:30:34',1),(5,1,'Answer # 4','2010-01-22 17:30:34',1,'2010-01-22 17:30:34',1);
+  CONSTRAINT `FK_answersa` FOREIGN KEY (`Author`) REFERENCES `users` (`Id`),
+  CONSTRAINT `FK_lastrelateduser` FOREIGN KEY (`LastRelatedUser`) REFERENCES `users` (`Id`)
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
 
 /*Table structure for table `questions` */
 
@@ -52,17 +49,14 @@ CREATE TABLE `questions` (
   `UpdateDate` datetime NOT NULL,
   `LastRelatedUser` int(4) unsigned NOT NULL,
   `CreatedDate` datetime NOT NULL,
+  `Votes` int(4) NOT NULL,
   PRIMARY KEY (`Id`),
   KEY `UpdateDate` (`UpdateDate`),
   KEY `FK_author` (`Author`),
   KEY `FK_last_related_user` (`LastRelatedUser`),
   CONSTRAINT `FK_author` FOREIGN KEY (`Author`) REFERENCES `users` (`Id`),
   CONSTRAINT `FK_last_related_user` FOREIGN KEY (`LastRelatedUser`) REFERENCES `users` (`Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
-
-/*Data for the table `questions` */
-
-insert  into `questions`(`Body`,`Author`,`Id`,`Title`,`UpdateDate`,`LastRelatedUser`,`CreatedDate`) values ('Well, is there?',1,1,'Is there a god?','2010-01-22 17:30:33',1,'2010-01-22 17:30:33');
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=latin1;
 
 /*Table structure for table `questiontags` */
 
@@ -76,8 +70,6 @@ CREATE TABLE `questiontags` (
   KEY `IX_Questions` (`QuestionId`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
-/*Data for the table `questiontags` */
-
 /*Table structure for table `tags` */
 
 DROP TABLE IF EXISTS `tags`;
@@ -88,8 +80,6 @@ CREATE TABLE `tags` (
   PRIMARY KEY (`TagId`),
   KEY `Name` (`Name`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
-/*Data for the table `tags` */
 
 /*Table structure for table `users` */
 
@@ -104,11 +94,7 @@ CREATE TABLE `users` (
   `OpenId` varchar(500) NOT NULL,
   PRIMARY KEY (`Id`),
   UNIQUE KEY `IX_OpenId` (`OpenId`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
-
-/*Data for the table `users` */
-
-insert  into `users`(`Id`,`Name`,`Website`,`Reputation`,`SignupDate`,`OpenId`) values (1,'User0',NULL,1,'2010-01-22 17:30:33','OpenId0'),(2,'User1',NULL,1,'2010-01-22 17:30:33','OpenId1'),(3,'User2',NULL,1,'2010-01-22 17:30:34','OpenId2'),(4,'User3',NULL,1,'2010-01-22 17:30:34','OpenId3'),(5,'User4',NULL,1,'2010-01-22 17:30:34','OpenId4'),(6,'User5',NULL,1,'2010-01-22 17:30:34','OpenId5'),(7,'User6',NULL,1,'2010-01-22 17:30:34','OpenId6'),(8,'User7',NULL,1,'2010-01-22 17:30:34','OpenId7'),(9,'User8',NULL,1,'2010-01-22 17:30:34','OpenId8'),(10,'User9',NULL,1,'2010-01-22 17:30:34','OpenId9'),(11,'User10',NULL,1,'2010-01-22 17:30:34','OpenId10');
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
 /*Table structure for table `votesonanswers` */
 
@@ -120,10 +106,6 @@ CREATE TABLE `votesonanswers` (
   `Vote` tinyint(1) unsigned NOT NULL,
   PRIMARY KEY (`UserId`,`PostId`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
-/*Data for the table `votesonanswers` */
-
-insert  into `votesonanswers`(`UserId`,`PostId`,`Vote`) values (2,2,0),(3,3,0),(4,3,0),(5,4,0),(6,4,0),(7,4,0),(8,5,0),(9,5,0),(10,5,0),(11,5,0);
 
 /*Table structure for table `votesonquestions` */
 
@@ -137,8 +119,6 @@ CREATE TABLE `votesonquestions` (
   KEY `UserId` (`UserId`),
   KEY `QuestionId` (`PostId`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
-/*Data for the table `votesonquestions` */
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;

@@ -18,16 +18,16 @@ namespace StackUnderflow.Web.Ui.Controllers
 
         protected ActionResult ProcessVoteImpl(int postId, VoteType voteType, bool wasOn)
         {
-            if (CurrentUser == null)
+            if (GetCurrentUser() == null)
             {
                 // Can't vote if not logged in
                 return ReturnVal(VoteResult.UserNotLoggedIn);
             }
 
             if (!wasOn)
-                _voteRepository.CreateOrUpdateVote(CurrentUser.Id, postId, voteType);
+                _voteRepository.CreateOrUpdateVote(GetCurrentUser().Id, postId, voteType);
             else
-                _voteRepository.RemoveVote(CurrentUser.Id, postId);
+                _voteRepository.RemoveVote(GetCurrentUser().Id, postId);
 
             return ReturnVal(VoteResult.OK);
         }
