@@ -37,8 +37,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Bootstrap\Bootstrapper.cs" />
-    <Compile Include="Bootstrap\NHibernateConfig.cs" />
-    <Compile Include="Bootstrap\NHibernateConfigurator.cs" />
     <Compile Include="DBUtils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -57,6 +55,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="Castle.ActiveRecord">
+      <HintPath>..\lib\Castle\Castle.ActiveRecord.dll</HintPath>
+    </Reference>
     <Reference Include="Castle.Core, Version=1.1.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\lib\Castle\Castle.Core.dll</HintPath>
@@ -73,7 +74,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\lib\Castle\Castle.Windsor.dll</HintPath>
     </Reference>
-    <Reference Include="NHibernate, Version=2.1.0.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL" />
+    <Reference Include="NHibernate">
+      <HintPath>..\lib\Fluent\NHibernate.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Core" />

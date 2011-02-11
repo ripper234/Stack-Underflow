@@ -9,7 +9,7 @@ using System.Web.Mvc;
 using Castle.Core;
 using Castle.MicroKernel.Registration;
 using Castle.Windsor;
-using StackUnderflow.IoC.Delver.Framework.IoC;
+using StackUnderflow.IoC;
 
 #endregion
 
